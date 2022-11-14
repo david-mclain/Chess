@@ -6,7 +6,6 @@ public abstract class ChessPiece {
 	protected int x;
 	protected int y;
 	protected boolean color;
-
 	
 	public ChessPiece(int x, int y, boolean color) {
 		this.x = x;
