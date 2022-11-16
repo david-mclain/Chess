@@ -4,8 +4,8 @@ import java.util.List;
 
 public class Knight extends ChessPiece {
 
-	public Knight(int x, int y, boolean color) {
-		super(x, y, color);
+	public Knight(int row, int col, boolean color) {
+		super(row, col, color);
 	}
 
 	@Override

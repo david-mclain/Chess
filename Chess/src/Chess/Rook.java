@@ -4,8 +4,8 @@ import java.util.List;
 
 public class Rook extends ChessPiece {
 
-	public Rook(int x, int y, boolean color) {
-		super(x, y, color);
+	public Rook(int row, int col, boolean color) {
+		super(row, col, color);
 	}
 
 	@Override

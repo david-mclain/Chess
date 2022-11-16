@@ -6,8 +6,8 @@ public class Pawn extends ChessPiece {
 	
 	private boolean firstMove;
 	
-	public Pawn(int x, int y, boolean color) {
-		super(x, y, color);
+	public Pawn(int row, int col, boolean color) {
+		super(row, col, color);
 		firstMove = true;
 	}
 

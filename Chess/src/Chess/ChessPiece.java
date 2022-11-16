@@ -3,13 +3,13 @@ package Chess;
 import java.util.List;
 
 public abstract class ChessPiece {
-	protected int x;
-	protected int y;
+	protected int row;
+	protected int col;
 	protected boolean color;
 	
-	public ChessPiece(int x, int y, boolean color) {
-		this.x = x;
-		this.y = y;
+	public ChessPiece(int row, int col, boolean color) {
+		this.row = row;
+		this.col = col;
 		this.color = color;
 	}
 	
@@ -18,11 +18,11 @@ public abstract class ChessPiece {
 	}
 	
 	public int getCol() {
-		return x;
+		return row;
 	}
 	
 	public int getRow() {
-		return y;
+		return col;
 	}
 	
 	public abstract List<List<Integer>> getValidMoves();

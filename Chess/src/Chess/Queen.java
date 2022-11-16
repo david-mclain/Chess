@@ -4,8 +4,8 @@ import java.util.List;
 
 public class Queen extends ChessPiece {
 
-	public Queen(int x, int y, boolean color) {
-		super(x, y, color);
+	public Queen(int row, int col, boolean color) {
+		super(row, col, color);
 	}
 
 	@Override

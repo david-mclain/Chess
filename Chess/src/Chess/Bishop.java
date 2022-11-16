@@ -4,8 +4,8 @@ import java.util.List;
 
 public class Bishop extends ChessPiece {
 
-	public Bishop(int x, int y, boolean color) {
-		super(x, y, color);
+	public Bishop(int row, int col, boolean color) {
+		super(row, col, color);
 	}
 
 	@Override
