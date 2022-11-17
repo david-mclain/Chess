@@ -1,10 +1,9 @@
-package Chess;
 
 import java.util.List;
 
-public class Rook extends ChessPiece {
+public class Queen extends ChessPiece {
 
-	public Rook(int row, int col, boolean color) {
+	public Queen(int row, int col, boolean color) {
 		super(row, col, color);
 	}
 
@@ -12,5 +11,5 @@ public class Rook extends ChessPiece {
 	public List<List<Integer>> getValidMoves() {
 		return null;
 	}
-	
+
 }

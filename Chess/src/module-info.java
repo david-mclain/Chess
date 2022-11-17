@@ -1,9 +1,0 @@
-/**
- * 
- */
-/**
- * @author david
- *
- */
-module Chess {
-}

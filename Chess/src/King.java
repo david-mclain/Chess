@@ -1,4 +1,3 @@
-package Chess;
 
 import java.util.List;
 

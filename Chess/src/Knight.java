@@ -1,10 +1,9 @@
-package Chess;
 
 import java.util.List;
 
-public class Queen extends ChessPiece {
+public class Knight extends ChessPiece {
 
-	public Queen(int row, int col, boolean color) {
+	public Knight(int row, int col, boolean color) {
 		super(row, col, color);
 	}
 
