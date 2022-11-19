@@ -8,13 +8,13 @@ import javax.swing.JPanel;
 
 public class BoardSquare extends JPanel {
 	
-	private Piece piece;
+	private ChessPiece piece;
 	private Color defaultColor;
 	private JLabel label;
 	private int row;
 	private int col;
 	
-	public BoardSquare(Color defaultColor, Piece piece, int row, int col) {
+	public BoardSquare(Color defaultColor, ChessPiece piece, int row, int col) {
 		this.defaultColor = defaultColor;
 		this.piece = piece;
 		this.row = row;
@@ -25,7 +25,7 @@ public class BoardSquare extends JPanel {
 		add(label);
 	}
 	
-	public void updatePiece(Piece piece) {
+	public void updatePiece(ChessPiece piece) {
 		this.piece = piece;
 		updateLook(defaultColor);
 	}

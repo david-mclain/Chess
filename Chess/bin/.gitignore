@@ -7,3 +7,7 @@
 /Queen.class
 /Rook.class
 /Square.class
+/BoardSquare.class
+/ChessUI.class
+/MainMenu.class
+/ChessUI$1.class
