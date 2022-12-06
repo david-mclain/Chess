@@ -7,8 +7,6 @@
  */
 public class Pawn extends Piece {
 
-	private boolean enPassantable;
-
 	/**
 	 * Constructor for Pawn. Assigns color and starting position.
 	 * 
@@ -19,12 +17,20 @@ public class Pawn extends Piece {
 	public Pawn(int row, int col, Side color) {
 		super(row, col, color);
 		name = PieceType.PAWN;
-		enPassantable = false;
-		if (color == Side.BLACK) {
-			image = "src/pawn_black.png";
-		} else {
-			image = "src/pawn_white.png";
-		}
+		if (color == Side.BLACK)
+			icon = "src/pawn_black.png";
+		else
+			icon = "src/pawn_white.png";
+	}
+
+	/**
+	 * Secondary constructor for Pawn which creates a copy of the param piece
+	 * 
+	 * @param piece
+	 */
+	public Pawn(Piece piece) {
+		this(piece.getRow(), piece.getCol(), piece.getColor());
+		this.legalMoves.addAll(piece.legalMoves);
 	}
 
 	/**
@@ -38,55 +44,38 @@ public class Pawn extends Piece {
 	 */
 	public void updateLegalMoves(Board board) {
 		legalMoves.clear();
-		int i = (color == Side.BLACK) ? 1 : -1; 
+		Move enPassant = board.getEnPassantSquare();
+		int i = (color == Side.BLACK) ? 1 : -1;
+
 		// single square forward
 		if (inBounds(row + i, col) && !board.hasPiece(row + i, col))
 			legalMoves.add(new Move(row + i, col));
-		// diagonal captures
-		if (inBounds(row + i, col + 1) && board.hasPiece(row + i, col + 1)
-				&& board.getPiece(row + i, col + 1).getColor() != color)
-			legalMoves.add(new Move(row + i, col + 1, MoveType.CAPTURE));
-		if (inBounds(row + i, col - 1) && board.hasPiece(row + i, col - 1)
-				&& board.getPiece(row + i, col - 1).getColor() != color)
-			legalMoves.add(new Move(row + i, col - 1, MoveType.CAPTURE));
+
 		// double square forward on first move
-		if (inBounds(row + (2 * i), col) && !board.hasPiece(row + i, col) && !board.hasPiece(row + (2 * i), col) && !hasMoved) {
-			legalMoves.add(new Move(row + (2 * i), col));
-			enPassantable = true;
-		}
-		// en passant
-		if (inBounds(row + i, col + 1) && !board.hasPiece(row + i, col + 1) && inBounds(row, col + 1)
-				&& board.hasPiece(row, col + 1) && board.getPiece(row, col + 1).getColor() != color
-				&& board.getPiece(row, col + 1).getName() == PieceType.PAWN) {
-			Pawn pawn = (Pawn) board.getPiece(row, col + 1);
-			if (pawn.isEnPassantable())
-				legalMoves.add(new Move(row + i, col + 1, MoveType.ENPASSANT));
-		}
-		if (inBounds(row + i, col - 1) && !board.hasPiece(row + i, col - 1) && inBounds(row, col - 1)
-				&& board.hasPiece(row, col - 1) && board.getPiece(row, col - 1).getColor() != color
-				&& board.getPiece(row, col - 1).getName() == PieceType.PAWN) {
-			Pawn pawn = (Pawn) board.getPiece(row, col - 1);
-			if (pawn.isEnPassantable())
-				legalMoves.add(new Move(row + i, col - 1, MoveType.ENPASSANT));
-		}
+		if (inBounds(row + (2 * i), col) && !board.hasPiece(row + i, col) && !board.hasPiece(row + (2 * i), col)
+				&& ((color == Side.WHITE && row == 6) || (color == Side.BLACK && row == 1)))
+			legalMoves.add(new Move(row + (2 * i), col, MoveType.DOUBLEMOVE));
 
-		// need promotion
+		// diagonal and en passant captures
+		for (int j : new int[] { 1, -1 }) {
+			if (!inBounds(row + i, col + j))
+				continue;
+			if (board.hasPiece(row + i, col + j) && board.getPiece(row + i, col + j).getColor() != color)
+				legalMoves.add(new Move(row + i, col + j, MoveType.CAPTURE));
+			else if (enPassant != null && enPassant.getRow() == row + i && enPassant.getCol() == col + j
+					&& board.hasPiece(row, col + j) && board.getPiece(row, col + j).getColor() != color
+					&& board.getPiece(row, col + j).getName() == PieceType.PAWN)
+				legalMoves.add(enPassant);
+		}
 	}
 
 	/**
-	 * Getter for enPassantable
+	 * Returns whether the Pawn can be promoted to another non-King piece
 	 * 
-	 * @return enPassantable
+	 * @return if the Pawn has reached the opposite side of the board
 	 */
-	public boolean isEnPassantable() {
-		return enPassantable;
-	}
-
-	/**
-	 * Sets enPassantable to false
-	 */
-	public void resetEnPassantable() {
-		enPassantable = false;
+	public boolean isPromoteable() {
+		return ((getColor() == Side.WHITE && row == 0) || (getColor() == Side.BLACK && row == 7));
 	}
 
 	/**
@@ -97,8 +86,13 @@ public class Pawn extends Piece {
 	public String getString() {
 		return color == Side.BLACK ? "\u2659" : "\u265F";
 	}
-	
+
+	/**
+	 * Returns as the Pawn as a String with the Pawn's color
+	 * 
+	 * @return the Pawn as a String
+	 */
 	public String toString() {
-		return "pawn_" + (color == Side.BLACK ? "black" :  "white");
+		return "pawn_" + (color == Side.BLACK ? "black" : "white");
 	}
 }

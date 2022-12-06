@@ -1,3 +1,5 @@
+import java.util.Iterator;
+
 /**
  * This class represents a King Piece in our game of Chess. Kings move one
  * square in any direction, orthogonal or diagonal.
@@ -14,23 +16,36 @@ public class King extends Piece {
 	public King(int row, int col, Side color) {
 		super(row, col, color);
 		name = PieceType.KING;
-		if (color == Side.BLACK) {
-			image = "src/king_black.png";
-		} else {
-			image = "src/king_white.png";
-		}
+		if (color == Side.BLACK)
+			icon = "src/king_black.png";
+		else
+			icon = "src/king_white.png";
+	}
+
+	/**
+	 * Secondary constructor for King which creates a copy of the param piece
+	 * 
+	 * @param piece
+	 */
+	public King(Piece piece) {
+		this(piece.getRow(), piece.getCol(), piece.getColor());
+		this.legalMoves.addAll(piece.legalMoves);
 	}
 
 	/**
 	 * Generates all legal moves the King can make. We iterate through offsets of 1,
 	 * 0, and -1 to generate each of the eight possible one square moves. We add a
 	 * square to our legal moves if it is in bounds, and is unoccupied or is
-	 * occupied by a piece of the opposite color. Castling needs to be added.
+	 * occupied by a piece of the opposite color. Then we add castling which the
+	 * King can only perform if it is not in check, has castling rights, and there
+	 * are no pieces between it and the Rook it wants to castle with.
 	 * 
 	 * @param board
 	 */
 	public void updateLegalMoves(Board board) {
 		legalMoves.clear();
+
+		// standard moves in each of the eight possible directions
 		for (int i : new int[] { 1, 0, -1 }) {
 			for (int j : new int[] { 1, 0, -1 }) {
 				// we skip offset 0, 0 since the King can't move to the square it's already on
@@ -42,17 +57,63 @@ public class King extends Piece {
 					legalMoves.add(new Move(row + i, col + j, MoveType.CAPTURE));
 			}
 		}
+
 		// castling
-		if (!hasMoved) {
+		if (board.getCheck(color))
+			return;
+		if (board.getShortCastle(color)) {
 			if (!board.hasPiece(row, col + 1) && !board.hasPiece(row, col + 2) && board.hasPiece(row, col + 3)
-					&& board.getPiece(row, col + 3).getName() == PieceType.ROOK
-					&& !board.getPiece(row, col + 3).getHasMoved()) {
+					&& board.getPiece(row, col + 3).getName() == PieceType.ROOK) {
 				legalMoves.add(new Move(row, col + 2, MoveType.SHORTCASTLE));
 			}
+		}
+		if (board.getLongCastle(color)) {
 			if (!board.hasPiece(row, col - 1) && !board.hasPiece(row, col - 2) && !board.hasPiece(row, col - 3)
-					&& board.hasPiece(row, col - 4) && board.getPiece(row, col - 4).getName() == PieceType.ROOK
-					&& !board.getPiece(row, col - 4).getHasMoved()) {
+					&& board.hasPiece(row, col - 4) && board.getPiece(row, col - 4).getName() == PieceType.ROOK) {
 				legalMoves.add(new Move(row, col - 2, MoveType.LONGCASTLE));
+			}
+		}
+	}
+
+	/**
+	 * The King needs a special implementation of filterLegalMoves to prevent the
+	 * King from castling through an attacked square
+	 * 
+	 * @param board
+	 */
+	public void filterLegalMoves(Board board) {
+		CheckChecker cc = CheckChecker.getInstance(board);
+		Iterator<Move> moveIter = legalMoves.iterator();
+		boolean removeShortCastle = false;
+		boolean removeLongCastle = false;
+		while (moveIter.hasNext()) {
+			Move move = moveIter.next();
+			if (!cc.isSafeMove(this, move)) {
+				if (move.getCol() == col + 1)
+					removeShortCastle = true;
+				if (move.getCol() == col - 1)
+					removeLongCastle = true;
+				moveIter.remove();
+			}
+		}
+		if (removeShortCastle) {
+			moveIter = legalMoves.iterator();
+			while (moveIter.hasNext()) {
+				Move move = moveIter.next();
+				if (move.getRow() == row && move.getCol() == col + 2) {
+					moveIter.remove();
+					break;
+				}
+			}
+		}
+		if (removeLongCastle) {
+			moveIter = legalMoves.iterator();
+			while (moveIter.hasNext()) {
+				Move move = moveIter.next();
+				if (move.getRow() == row && move.getCol() == col - 2) {
+					moveIter.remove();
+					break;
+				}
 			}
 		}
 	}
@@ -65,8 +126,13 @@ public class King extends Piece {
 	public String getString() {
 		return color == Side.BLACK ? "\u2654" : "\u265A";
 	}
-	
+
+	/**
+	 * Returns as the King as a String with the King's color
+	 * 
+	 * @return the King as a String
+	 */
 	public String toString() {
-		return "king_" + (color == Side.BLACK ? "black" :  "white");
+		return "king_" + (color == Side.BLACK ? "black" : "white");
 	}
 }

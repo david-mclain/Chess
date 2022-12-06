@@ -14,11 +14,20 @@ public class Rook extends Piece {
 	public Rook(int row, int col, Side color) {
 		super(row, col, color);
 		name = PieceType.ROOK;
-		if (color == Side.BLACK) {
-			image = "src/rook_black.png";
-		} else {
-			image = "src/rook_white.png";
-		}
+		if (color == Side.BLACK)
+			icon = "src/rook_black.png";
+		else
+			icon = "src/rook_white.png";
+	}
+
+	/**
+	 * Secondary constructor for Rook which creates a copy of the param Piece
+	 * 
+	 * @param piece
+	 */
+	public Rook(Piece piece) {
+		this(piece.getRow(), piece.getCol(), piece.getColor());
+		this.legalMoves.addAll(piece.legalMoves);
 	}
 
 	/**
@@ -32,7 +41,7 @@ public class Rook extends Piece {
 	 * @param board
 	 */
 	public void updateLegalMoves(Board board) {
-		legalMoves .clear();
+		legalMoves.clear();
 		for (int i = 1; i < 8; i++) {
 			if (!inBounds(row + i, col))
 				break;
@@ -40,7 +49,7 @@ public class Rook extends Piece {
 				legalMoves.add(new Move(row + i, col));
 			} else {
 				if (board.getPiece(row + i, col).getColor() != color)
-					legalMoves.add(new Move(row + i, col));
+					legalMoves.add(new Move(row + i, col, MoveType.CAPTURE));
 				break;
 			}
 		}
@@ -51,7 +60,7 @@ public class Rook extends Piece {
 				legalMoves.add(new Move(row - i, col));
 			} else {
 				if (board.getPiece(row - i, col).getColor() != color)
-					legalMoves.add(new Move(row - i, col));
+					legalMoves.add(new Move(row - i, col, MoveType.CAPTURE));
 				break;
 			}
 		}
@@ -62,7 +71,7 @@ public class Rook extends Piece {
 				legalMoves.add(new Move(row, col + i));
 			} else {
 				if (board.getPiece(row, col + i).getColor() != color)
-					legalMoves.add(new Move(row, col + i));
+					legalMoves.add(new Move(row, col + i, MoveType.CAPTURE));
 				break;
 			}
 		}
@@ -73,7 +82,7 @@ public class Rook extends Piece {
 				legalMoves.add(new Move(row, col - i));
 			} else {
 				if (board.getPiece(row, col - i).getColor() != color)
-					legalMoves.add(new Move(row, col - i));
+					legalMoves.add(new Move(row, col - i, MoveType.CAPTURE));
 				break;
 			}
 		}
@@ -87,8 +96,13 @@ public class Rook extends Piece {
 	public String getString() {
 		return color == Side.BLACK ? "\u2656" : "\u265C";
 	}
-	
+
+	/**
+	 * Returns as the Rook as a String with the Rook's color
+	 * 
+	 * @return the Rook as a String
+	 */
 	public String toString() {
-		return "rook_" + (color == Side.BLACK ? "black" :  "white");
+		return "rook_" + (color == Side.BLACK ? "black" : "white");
 	}
 }

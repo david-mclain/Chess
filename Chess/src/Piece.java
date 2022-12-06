@@ -1,4 +1,5 @@
 import java.util.HashSet;
+import java.util.Iterator;
 
 /**
  * This class represents a Piece in our game of Chess. Pieces have a position,
@@ -10,9 +11,8 @@ public abstract class Piece {
 	protected int col;
 	protected Side color;
 	protected PieceType name;
-	protected boolean hasMoved;
+	protected String icon;
 	protected HashSet<Move> legalMoves;
-	protected String image;
 
 	/**
 	 * Constructor for Piece. Assigned color and starting position.
@@ -56,7 +56,7 @@ public abstract class Piece {
 	}
 
 	/**
-	 * Getter for name
+	 * Getter for name, which represents the type of the Piece
 	 * 
 	 * @return name
 	 */
@@ -65,21 +65,12 @@ public abstract class Piece {
 	}
 
 	/**
-	 * Getter for hasMoved
-	 * 
-	 * @return hasMoved
-	 */
-	public boolean getHasMoved() {
-		return hasMoved;
-	}
-
-	/**
 	 * Getter for image
 	 * 
 	 * @return image
 	 */
 	public String getIcon() {
-		return image;
+		return icon;
 	}
 
 	/**
@@ -90,17 +81,17 @@ public abstract class Piece {
 	public HashSet<Move> getLegalMoves() {
 		return legalMoves;
 	}
-
+	
 	/**
 	 * Getter for the move with the specified row and column
 	 * 
-	 * @param rowToCheck
-	 * @param colToCheck
+	 * @param moveRow
+	 * @param moveCol
 	 * @return a move
 	 */
-	public Move getMove(int rowToCheck, int colToCheck) {
+	public Move getMove(int moveRow, int moveCol) {
 		for (Move move : legalMoves) {
-			if (move.getRow() == rowToCheck && move.getCol() == colToCheck)
+			if (move.getRow() == moveRow && move.getCol() == moveCol)
 				return move;
 		}
 		return null;
@@ -108,18 +99,31 @@ public abstract class Piece {
 
 	/**
 	 * Checks if the Piece is allowed to move to the specified square
-	 * legalMoves.contains(moveToCheck) didn't work, it's probably comparing
-	 * references or something
 	 * 
 	 * @param moveToCheck
 	 * @return true if legal, false if not
 	 */
-	public boolean checkIfLegalMove(int rowToCheck, int colToCheck) {
+	public boolean checkIfLegalMove(int moveRow, int moveCol) {
 		for (Move move : legalMoves) {
-			if (move.getRow() == rowToCheck && move.getCol() == colToCheck)
+			if (move.getRow() == moveRow && move.getCol() == moveCol)
 				return true;
 		}
 		return false;
+	}
+
+	/**
+	 * Removes moves from the Piece's legal moves that leave the player in check
+	 * 
+	 * @param board
+	 */
+	public void filterLegalMoves(Board board) {
+		CheckChecker cc = CheckChecker.getInstance(board);
+		Iterator<Move> moveIter = legalMoves.iterator();
+		while (moveIter.hasNext()) {
+			Move move = moveIter.next();
+			if (!cc.isSafeMove(this, move))
+				moveIter.remove();
+		}
 	}
 
 	/**
@@ -130,7 +134,16 @@ public abstract class Piece {
 	public void move(Move move) {
 		this.row = move.getRow();
 		this.col = move.getCol();
-		hasMoved = true;
+	}
+
+	/**
+	 * Changes the Piece's position based on the specified row and column
+	 * 
+	 * @param move
+	 */
+	public void move(int moveRow, int moveCol) {
+		this.row = moveRow;
+		this.col = moveCol;
 	}
 
 	/**
@@ -145,15 +158,20 @@ public abstract class Piece {
 	}
 
 	/**
+	 * Converts the Piece's position to algebraic chess notation for printing
+	 * 
+	 * @return the Piece's position as a String
+	 */
+	protected String pos() {
+		return (char) (col + 65) + "" + (8 - row);
+	}
+
+	/**
 	 * Generates all legal moves the Piece can make
 	 * 
 	 * @param board
 	 */
 	public abstract void updateLegalMoves(Board board);
-
-	public boolean causesCheck(Move move, Board board) {
-		return false;
-	}
 
 	/**
 	 * Getter for the Piece's unicode character

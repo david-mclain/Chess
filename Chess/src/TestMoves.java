@@ -1,16 +1,18 @@
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.Scanner;
-
-/**
- * Testing class, very scuffed. Helper methods at the bottom tho.
+/*
+ * File: TestMoves.java
+ * Author: David McLain
+ * Contributors: David McLain, Adrian Moore
+ * Description: This class is used for testing board movements and possibilities
+ * without having to create UI
  */
 public class TestMoves {
 	private static Board board;
 	private static Scanner in;
 
-	public static void main(String[] args) {
+	public static void main(String[] args) {		
 		in = new Scanner(System.in);
 
 		PrintStream out = null;
@@ -29,15 +31,12 @@ public class TestMoves {
 			String input = in.nextLine();
 			int row = Character.getNumericValue(input.charAt(1)) - 1;
 			int col = input.charAt(0);
-			// so that upper and lowercase both work
 			col = col > 96 ? col - 97 : col - 65;
 			out.println("row: " + (row + 1) + ", col: " + Character.toString(col + 65));
 			Piece piece = board.getPiece(row, col);
-			// System.out.println(piece.getRow() + ", " + piece.getCol());
 			if (piece != null) {
 				printPieceMoves(piece, out);
 			}
-			// prompt user for a move
 			Move userMove = null;
 			boolean validMove = false;
 			while (!validMove) {
@@ -46,7 +45,6 @@ public class TestMoves {
 				int targetRow = Character.getNumericValue(targetInput.charAt(1)) - 1;
 				int targetCol = targetInput.charAt(0);
 				targetCol = targetCol > 96 ? targetCol - 97 : targetCol - 65;
-				// System.out.println(targetRow + ", " + targetCol);
 				out.println("row: " + (row + 1) + ", col: " + Character.toString(col + 65));
 				userMove = new Move(targetRow, targetCol);
 				validMove = piece.checkIfLegalMove(targetRow, targetCol);
@@ -59,9 +57,8 @@ public class TestMoves {
 	}
 
 	/**
-	 * Prints a representation of the board using characters
-	 * 
-	 * @param out
+	 * Prints a representation of the board using UTF characters
+	 * @param out - stream for printing
 	 */
 	private static void printBoard(PrintStream out) {
 		out.println("    A   B   C   D   E   F   G   H   ");
@@ -84,9 +81,8 @@ public class TestMoves {
 
 	/**
 	 * Prints all legal moves in the current board
-	 * 
-	 * @param board
-	 * @param out
+	 * @param board - current board
+	 * @param out - stream for printing
 	 */
 	private static void printAllMoves(Board board, PrintStream out) {
 		for (Piece[] row : board.getBoard()) {
@@ -102,9 +98,8 @@ public class TestMoves {
 
 	/**
 	 * Prints all legal moves of the specified piece
-	 * 
-	 * @param piece
-	 * @param out
+	 * @param piece - piece to print moves for
+	 * @param out - stream for printing
 	 */
 	private static void printPieceMoves(Piece piece, PrintStream out) {
 		for (Move move : piece.getLegalMoves())

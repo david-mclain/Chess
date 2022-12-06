@@ -1,12 +1,16 @@
-
+/*
+ * File: TestFEN.java
+ * Author: Luke Niemann
+ * Description: Testing script for FEN.java. Tests toFen and toBoard.
+ * 
+ */
 public class TestFEN{
 	public static void main(String[] args) {
 		Board b = new Board();
-		FENConverter converter = new FENConverter();
 		
 		//test board to fen
 		System.out.println("Should be: rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
-		System.out.println("Actual:    "+converter.toFEN(b));
+		System.out.println("Actual:    "+ FEN.toFEN(b));
 		
 		System.out.println("\n-------------------\n");
 		
@@ -20,7 +24,7 @@ public class TestFEN{
 				+ "PAWN PAWN PAWN PAWN PAWN PAWN PAWN PAWN \r\n"
 				+ "ROOK KNIGHT BISHOP QUEEN KING BISHOP KNIGHT ROOK");
 		Piece[][] newB =
-				converter.toBoard("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+				FEN.toBoard("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
 		System.out.println("Actual:");
 		printBoard(newB);
 	}

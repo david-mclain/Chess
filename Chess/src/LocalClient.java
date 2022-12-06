@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -8,24 +9,45 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
+/*
+ * File: ServerClient.java
+ * Author: David McLain
+ * Contributors: David McLain, Martin Cox
+ * Description: This class is used for any UI handling and user input for a
+ * local game
+ */
 public class LocalClient extends Client {
-	
+
+	private LocalGame game;
+
+	/**
+	 * Instantiates new LocalClient
+	 * 
+	 * @param competitive - if game is competitive
+	 */
 	LocalClient(boolean competitive) {
-		this(null, competitive);
+		super(competitive);
+		game = new LocalGame(this);
+		setMenu();
+		start("white");
 	}
 
+	/**
+	 * Instantiates new LocalClient with game to load
+	 * 
+	 * @param toLoad      - game to load
+	 * @param competitive - if game is competitive
+	 */
 	public LocalClient(List<String> toLoad, boolean competitive) {
-		super(competitive);
-		if (toLoad == null) {
-			game = new LocalGame();
-		}
-		else {
-			game = new LocalGame(toLoad);
-		}
+		super(competitive, toLoad.get(1).equals("white") ? 0 : 1, Integer.parseInt(toLoad.get(3)), Integer.parseInt(toLoad.get(4)));
+		game = new LocalGame(toLoad, this);
 		setMenu();
-		frame.add(getBoard());
+		start(toLoad.get(1));
 	}
-	
+
+	/**
+	 * Sets menu of client
+	 */
 	private void setMenu() {
 		JMenuBar menu = new JMenuBar();
 		JMenu load = new JMenu("Save");
@@ -35,16 +57,28 @@ public class LocalClient extends Client {
 		menu.add(load);
 		frame.setJMenuBar(menu);
 	}
-	
+
+	/**
+	 * Saves current game
+	 */
 	private void saveGame() {
 		List<String> toSave = new ArrayList<>();
-		Board board = game.getBoard();
-		for (int i = 0; i < 64; i++) {
-			toSave.add((board.getPiece(i / 8, i % 8) != null ? (board.getPiece(i / 8, i % 8).toString()) : "null") + ";" + (i / 8) + ";" + (i % 8) + "\n");
+		toSave.add(FEN.toFENFull(game.getBoard()) + "\n");
+		toSave.add(game.getCurrentPlayer().getColor() == Side.WHITE ? "white\n" : "black\n");
+		toSave.add(competitive + "\n");
+		toSave.add(whiteTime + "\n");
+		toSave.add(blackTime + "\n");
+		String allPrevPos = "";
+		ArrayList<String> prevPos = game.getPrevPositions();
+		for (int i = 0; i < prevPos.size(); i++) {
+			allPrevPos += prevPos.get(i);
+			if (i < prevPos.size() - 1)
+				allPrevPos += "_";
 		}
-		toSave.add(game.getCurrentPlayer().getColor() == Side.WHITE ? "WHITE\n" : "BLACK\n");
-		toSave.add("" + competitive);
-		
+		toSave.add(allPrevPos + "\n");
+		toSave.add(game.getHalfMoveClock() + "\n");
+		for (String piece : game.getCapturedPieces())
+			toSave.add(piece + "\n");
 		JFileChooser file = new JFileChooser();
 		file.setDialogTitle("Choose where to save");
 		int x = file.showSaveDialog(frame);
@@ -61,4 +95,60 @@ public class LocalClient extends Client {
 			}
 		}
 	}
+
+	/**
+	 * Selects piece in game
+	 */
+	@Override
+	public void selectPiece(int i, int j) throws Exception {
+		Piece curPiece = game.selectPiece(i, j);
+		curRow = i;
+		curCol = j;
+		curColor = curPlayer % 2 == 0 ? Side.WHITE : Side.BLACK;
+		pieceChosen = true;
+		legalMoves = game.getLegalMoves(curPiece);
+		for (String m : legalMoves) {
+			int col = m.charAt(0) - 'A';
+			int row = Math.abs(Character.getNumericValue(m.charAt(1)) - 8);
+			squares[row][col].updateLook(Color.YELLOW);
+		}
+	}
+
+	/**
+	 * Moves current piece
+	 */
+	@Override
+	protected void move(int curRow, int curCol, int i, int j) throws Exception {
+		game.movePiece(curRow, curCol, i, j);
+		flipPlayers();
+	}
+
+	/**
+	 * Promotes piece to new specified piece
+	 */
+	@Override
+	public void promote(int i, int j, int type) {
+		if (type == 1) {
+			promotePiece = PieceType.ROOK;
+		} else if (type == 2) {
+			promotePiece = PieceType.KNIGHT;
+		} else if (type == 3) {
+			promotePiece = PieceType.BISHOP;
+		} else {
+			promotePiece = PieceType.QUEEN;
+		}
+		game.promote(i, j, promotePiece);
+	}
+
+	/**
+	 * Checks if game has ended
+	 */
+	@Override
+	protected void checkEnd() {
+		if (game.end()) {
+			String cause = game.getCause();
+			endGame(cause);
+		}
+	}
+
 }

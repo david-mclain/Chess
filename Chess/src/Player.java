@@ -19,15 +19,31 @@ public class Player {
 		this.color = color;
 	}
 	
+	/**
+	 * Sets current player's DataInputStream
+	 * @param DataInputStream - DataInputStream to set to player
+	 */
 	public void setInput(DataInputStream input) {
 		this.input = input;
 	}
+	/**
+	 * Sets current player's output
+	 * @param DataOutputStream - DataOutputStream to set to player
+	 */
 	public void setOutput(DataOutputStream output) {
-		this.output = output;	
+		this.output = output;
 	}
+	/**
+	 * Returns DataInputStream of player
+	 * @return DataInputStream of player
+	 */
 	public DataInputStream getInput() {
-		return input;
+		return input;	
 	}
+	/**
+	 * Returns DataOutputStream of player
+	 * @return DataOutputStream of player
+	 */
 	public DataOutputStream getOutput() {
 		return output;
 	}

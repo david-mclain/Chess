@@ -15,11 +15,20 @@ public class Knight extends Piece {
 	public Knight(int row, int col, Side color) {
 		super(row, col, color);
 		name = PieceType.KNIGHT;
-		if (color == Side.BLACK) {
-			image = "src/knight_black.png";
-		} else {
-			image = "src/knight_white.png";
-		}
+		if (color == Side.BLACK)
+			icon = "src/knight_black.png";
+		else
+			icon = "src/knight_white.png";
+	}
+
+	/**
+	 * Secondary constructor for Rook which creates a copy of the param Piece
+	 * 
+	 * @param piece
+	 */
+	public Knight(Piece piece) {
+		this(piece.getRow(), piece.getCol(), piece.getColor());
+		this.legalMoves.addAll(piece.legalMoves);
 	}
 
 	/**
@@ -58,8 +67,13 @@ public class Knight extends Piece {
 	public String getString() {
 		return color == Side.BLACK ? "\u2658" : "\u265E";
 	}
-	
+
+	/**
+	 * Returns as the Knight as a String with the Knight's color
+	 * 
+	 * @return the Knight as a String
+	 */
 	public String toString() {
-		return "knight_" + (color == Side.BLACK ? "black" :  "white");
+		return "knight_" + (color == Side.BLACK ? "black" : "white");
 	}
 }

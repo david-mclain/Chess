@@ -1,7 +1,10 @@
 /**
- * This class represents a Move in our game of Chess. The Move contains the row
- * and column of the target square of the moving piece, and a MoveType to
- * identify special moves like captures, castles, and en passant.
+ * @author Adrian Moore
+ * 
+ *         This class represents a Move in our game of Chess. The Move contains
+ *         the row and column of the target square of the moving piece, and a
+ *         MoveType to identify special moves like capturing, castling, and en
+ *         passant.
  */
 public class Move {
 	private int row;
@@ -61,15 +64,20 @@ public class Move {
 	}
 
 	/**
-	 * Checks if the move is in bounds
+	 * Checks if the Move is in bounds
 	 * 
 	 * @return true if in bounds, false if not
 	 */
 	public boolean inBounds() {
 		return (row >= 0 && col < 8 && row >= 0 && col < 8);
 	}
-	
+
+	/**
+	 * Converts the Move to algebraic chess notation for printing
+	 * 
+	 * @return the Move as a String
+	 */
 	public String toString() {
-		return (char)(col + 65) + "" + (8 - row);
+		return (char) (col + 65) + "" + (8 - row);
 	}
 }

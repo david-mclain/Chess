@@ -14,11 +14,20 @@ public class Bishop extends Piece {
 	public Bishop(int row, int col, Side color) {
 		super(row, col, color);
 		name = PieceType.BISHOP;
-		if (color == Side.BLACK) {
-			image = "src/bishop_black.png";
-		} else {
-			image = "src/bishop_white.png";
-		}
+		if (color == Side.BLACK)
+			icon = "src/bishop_black.png";
+		else
+			icon = "src/bishop_white.png";
+	}
+
+	/**
+	 * Secondary constructor for Bishop which creates a copy of the param Piece
+	 * 
+	 * @param piece
+	 */
+	public Bishop(Piece piece) {
+		this(piece.getRow(), piece.getCol(), piece.getColor());
+		this.legalMoves.addAll(piece.legalMoves);
 	}
 
 	/**
@@ -32,7 +41,7 @@ public class Bishop extends Piece {
 	 * @param board
 	 */
 	public void updateLegalMoves(Board board) {
-		legalMoves.clear();;
+		legalMoves.clear();
 		for (int i = 1; i < 8; i++) {
 			if (!inBounds(row + i, col + i))
 				break;
@@ -78,6 +87,7 @@ public class Bishop extends Piece {
 			}
 		}
 	}
+
 	/**
 	 * Getter for the Bishop's unicode character
 	 * 
@@ -86,8 +96,13 @@ public class Bishop extends Piece {
 	public String getString() {
 		return color == Side.BLACK ? "\u2657" : "\u265D";
 	}
-	
+
+	/**
+	 * Returns as the Bishop as a String with the Bishop's color
+	 * 
+	 * @return the Bishop as a String
+	 */
 	public String toString() {
-		return "bishop_" + (color == Side.BLACK ? "black" :  "white");
+		return "bishop_" + (color == Side.BLACK ? "black" : "white");
 	}
 }

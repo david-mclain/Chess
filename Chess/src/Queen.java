@@ -14,11 +14,20 @@ public class Queen extends Piece {
 	public Queen(int row, int col, Side color) {
 		super(row, col, color);
 		name = PieceType.QUEEN;
-		if (color == Side.BLACK) {
-			image = "src/queen_black.png";
-		} else {
-			image = "src/queen_white.png";
-		}
+		if (color == Side.BLACK)
+			icon = "src/queen_black.png";
+		else
+			icon = "src/queen_white.png";
+	}
+
+	/**
+	 * Secondary constructor for Queen which creates a copy of the param piece
+	 * 
+	 * @param piece
+	 */
+	public Queen(Piece piece) {
+		this(piece.getRow(), piece.getCol(), piece.getColor());
+		this.legalMoves.addAll(piece.legalMoves);
 	}
 
 	/**
@@ -33,7 +42,8 @@ public class Queen extends Piece {
 	 */
 	public void updateLegalMoves(Board board) {
 		legalMoves.clear();
-		// orthogonals
+
+		// first, we check the orthogonal directions (like a Rook)
 		for (int i = 1; i < 8; i++) {
 			if (!inBounds(row + i, col))
 				break;
@@ -41,7 +51,7 @@ public class Queen extends Piece {
 				legalMoves.add(new Move(row + i, col));
 			} else {
 				if (board.getPiece(row + i, col).getColor() != color)
-					legalMoves.add(new Move(row + i, col));
+					legalMoves.add(new Move(row + i, col, MoveType.CAPTURE));
 				break;
 			}
 		}
@@ -52,7 +62,7 @@ public class Queen extends Piece {
 				legalMoves.add(new Move(row - i, col));
 			} else {
 				if (board.getPiece(row - i, col).getColor() != color)
-					legalMoves.add(new Move(row - i, col));
+					legalMoves.add(new Move(row - i, col, MoveType.CAPTURE));
 				break;
 			}
 		}
@@ -63,7 +73,7 @@ public class Queen extends Piece {
 				legalMoves.add(new Move(row, col + i));
 			} else {
 				if (board.getPiece(row, col + i).getColor() != color)
-					legalMoves.add(new Move(row, col + i));
+					legalMoves.add(new Move(row, col + i, MoveType.CAPTURE));
 				break;
 			}
 		}
@@ -75,12 +85,12 @@ public class Queen extends Piece {
 				legalMoves.add(new Move(row, col - i));
 			} else {
 				if (board.getPiece(row, col - i).getColor() != color)
-					legalMoves.add(new Move(row, col - i));
+					legalMoves.add(new Move(row, col - i, MoveType.CAPTURE));
 				break;
 			}
 		}
 
-		// diagonals
+		// the, we check the diagonal directions (like a Bishop)
 		for (int i = 1; i < 8; i++) {
 			if (!inBounds(row + i, col + i))
 				break;
@@ -88,7 +98,7 @@ public class Queen extends Piece {
 				legalMoves.add(new Move(row + i, col + i));
 			} else {
 				if (board.getPiece(row + i, col + i).getColor() != color)
-					legalMoves.add(new Move(row + i, col + i));
+					legalMoves.add(new Move(row + i, col + i, MoveType.CAPTURE));
 				break;
 			}
 		}
@@ -99,7 +109,7 @@ public class Queen extends Piece {
 				legalMoves.add(new Move(row + i, col - i));
 			} else {
 				if (board.getPiece(row + i, col - i).getColor() != color)
-					legalMoves.add(new Move(row + i, col - i));
+					legalMoves.add(new Move(row + i, col - i, MoveType.CAPTURE));
 				break;
 			}
 		}
@@ -110,7 +120,7 @@ public class Queen extends Piece {
 				legalMoves.add(new Move(row - i, col + i));
 			} else {
 				if (board.getPiece(row - i, col + i).getColor() != color)
-					legalMoves.add(new Move(row - i, col + i));
+					legalMoves.add(new Move(row - i, col + i, MoveType.CAPTURE));
 				break;
 			}
 		}
@@ -121,7 +131,7 @@ public class Queen extends Piece {
 				legalMoves.add(new Move(row - i, col - i));
 			} else {
 				if (board.getPiece(row - i, col - i).getColor() != color)
-					legalMoves.add(new Move(row - i, col - i));
+					legalMoves.add(new Move(row - i, col - i, MoveType.CAPTURE));
 				break;
 			}
 		}
@@ -135,8 +145,13 @@ public class Queen extends Piece {
 	public String getString() {
 		return color == Side.BLACK ? "\u2655" : "\u265B";
 	}
-	
+
+	/**
+	 * Returns as the Queen as a String with the Queen's color
+	 * 
+	 * @return the Queen as a String
+	 */
 	public String toString() {
-		return "queen_" + (color == Side.BLACK ? "black" :  "white");
+		return "queen_" + (color == Side.BLACK ? "black" : "white");
 	}
 }
