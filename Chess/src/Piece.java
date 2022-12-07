@@ -2,8 +2,13 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 /**
- * This class represents a Piece in our game of Chess. Pieces have a position,
- * color, name, image, and a set of legal moves they can execute.
+ * @author Adrian Moore
+ * 
+ *         Contributors: Martin Cox
+ * 
+ *         This class represents a Piece in our game of Chess. Pieces have a
+ *         position, color, name, image, and a set of legal moves they can
+ *         execute.
  */
 public abstract class Piece {
 
@@ -81,7 +86,7 @@ public abstract class Piece {
 	public HashSet<Move> getLegalMoves() {
 		return legalMoves;
 	}
-	
+
 	/**
 	 * Getter for the move with the specified row and column
 	 * 

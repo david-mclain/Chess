@@ -1,6 +1,10 @@
 /**
- * This class represents a Bishop Piece in our game of Chess. Bishops move
- * diagonally and can move any number of squares.
+ * @author Adrian Moore
+ * 
+ *         Contributors: Martin Cox
+ * 
+ *         This class represents a Bishop Piece in our game of Chess. Bishops
+ *         move diagonally and can move any number of squares.
  */
 public class Bishop extends Piece {
 

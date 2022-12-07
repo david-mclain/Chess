@@ -55,7 +55,7 @@ public class LocalGame extends Game {
 	 */
 	@Override
 	public void endGame(End gameOver) {
-		//client.endGame(gameOver.toString());
+		client.endGame(gameOver.toString());
 	}
 	/**
 	 * Sends captured pieces to client

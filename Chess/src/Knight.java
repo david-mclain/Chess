@@ -1,7 +1,11 @@
 /**
- * This class represents a Knight Piece in our game of Chess. Knights move in an
- * L shape: two square in one direction and one square in another (both
- * orthogonally).
+ * @author Adrian Moore
+ * 
+ *         Contributors: Martin Cox
+ * 
+ *         This class represents a Knight Piece in our game of Chess. Knights
+ *         move in an L shape: two square in one direction and one square in
+ *         another (both orthogonally).
  */
 public class Knight extends Piece {
 

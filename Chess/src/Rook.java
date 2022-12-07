@@ -1,6 +1,11 @@
 /**
- * This class represents a Rook Piece in our game of Chess. Rooks move
- * orthogonally and can move any number of squares.
+ * 
+ * @author Adrian Moore
+ * 
+ *         Contributors: Martin Cox
+ * 
+ *         This class represents a Rook Piece in our game of Chess. Rooks move
+ *         orthogonally and can move any number of squares.
  */
 public class Rook extends Piece {
 

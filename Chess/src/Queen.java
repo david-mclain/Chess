@@ -1,6 +1,11 @@
 /**
- * This class represents a Queen Piece in our game of Chess. Queens can move
- * orthogonally and diagonally and can move any number of squares.
+ * 
+ * @author Adrian Moore
+ * 
+ *         Contributors: Martin Cox
+ * 
+ *         This class represents a Queen Piece in our game of Chess. Queens can
+ *         move orthogonally and diagonally and can move any number of squares.
  */
 public class Queen extends Piece {
 

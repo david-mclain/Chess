@@ -5,7 +5,12 @@ import java.util.Set;
 import java.util.Map.Entry;
 
 /**
- * @author Martin
+ * @author Martin Cox
+ * 
+ *         This class is used for evaluating which moves are legal for a player
+ *         to make. Player's can't make a move that would put their own King in
+ *         check, and if they are currently in check they can only make a move
+ *         which takes them out of check.
  *
  */
 public class CheckChecker {
@@ -17,6 +22,11 @@ public class CheckChecker {
 	private boolean whiteInCheck;
 	private boolean blackInCheck;
 
+	/**
+	 * Constructor for CheckChecker
+	 * 
+	 * @param board
+	 */
 	private CheckChecker(Board board) {
 		this.board = board;
 		checkingPieces = new HashSet<Piece>();
@@ -160,14 +170,14 @@ public class CheckChecker {
 
 	/**
 	 * Checks if a player is in checkmate. If a player is in check with no legal
-	 * moves, they are in checkmate. If a player is not in check wih no leval moves,
-	 * it is a stalemate.
+	 * moves, they are in checkmate. If a player is not in check with no legal
+	 * moves, it is a stalemate.
 	 * 
 	 * @param p
 	 * @return
 	 */
 	public End checkMate(Player p) {
-		// if (isInCheck(p.getColor())) {
+		board.updateInCheck();
 		HashMap<Piece, HashSet<Move>> moves = board.getLegalMoves(p.getColor());
 		for (Map.Entry<Piece, HashSet<Move>> entry : moves.entrySet()) {
 			if (!entry.getValue().isEmpty()) {

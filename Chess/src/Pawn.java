@@ -1,9 +1,14 @@
 /**
- * This class represents a Pawn Piece in our game of Chess. Pawns can move one
- * square forward and capture one square diagonally forward. On the first move a
- * Pawn can move two square forward, but it is then vulnerable to being captured
- * en passant for one turn. Pawns can be promoted to another piece when they
- * reach the opposite side of the Board.
+ * @author Adrian Moore
+ * 
+ *         Contributors: Martin Cox
+ * 
+ *         This class represents a Pawn Piece in our game of Chess. Pawns can
+ *         move one square forward and capture one square diagonally forward. On
+ *         the first move a Pawn can move two square forward, but it is then
+ *         vulnerable to being captured en passant for one turn. Pawns can be
+ *         promoted to another piece when they reach the opposite side of the
+ *         Board.
  */
 public class Pawn extends Piece {
 

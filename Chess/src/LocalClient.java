@@ -22,7 +22,6 @@ public class LocalClient extends Client {
 
 	/**
 	 * Instantiates new LocalClient
-	 * 
 	 * @param competitive - if game is competitive
 	 */
 	LocalClient(boolean competitive) {
@@ -34,7 +33,6 @@ public class LocalClient extends Client {
 
 	/**
 	 * Instantiates new LocalClient with game to load
-	 * 
 	 * @param toLoad      - game to load
 	 * @param competitive - if game is competitive
 	 */
@@ -50,14 +48,27 @@ public class LocalClient extends Client {
 	 */
 	private void setMenu() {
 		JMenuBar menu = new JMenuBar();
-		JMenu load = new JMenu("Save");
-		JMenuItem loadGame = new JMenuItem("Save Game");
-		loadGame.addActionListener(e -> saveGame());
-		load.add(loadGame);
-		menu.add(load);
+		JMenu save = new JMenu("Save");
+		JMenuItem saveGame = new JMenuItem("Save Game");
+		saveGame.addActionListener(e -> saveGame());
+		save.add(saveGame);
+		
+		JMenu main = new JMenu("Exit");
+		JMenuItem mainMenu = new JMenuItem("Main Menu");
+		mainMenu.addActionListener(e -> mainMenuReturn());
+		main.add(mainMenu);
+		
+		menu.add(main);
+		menu.add(save);
 		frame.setJMenuBar(menu);
 	}
-
+	/**
+	 * Returns to main menu
+	 */
+	private void mainMenuReturn() {
+		frame.dispose();
+		MainMenu.reset();
+	}
 	/**
 	 * Saves current game
 	 */
@@ -113,7 +124,6 @@ public class LocalClient extends Client {
 			squares[row][col].updateLook(Color.YELLOW);
 		}
 	}
-
 	/**
 	 * Moves current piece
 	 */
@@ -122,7 +132,6 @@ public class LocalClient extends Client {
 		game.movePiece(curRow, curCol, i, j);
 		flipPlayers();
 	}
-
 	/**
 	 * Promotes piece to new specified piece
 	 */

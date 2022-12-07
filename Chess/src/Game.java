@@ -23,6 +23,7 @@ public abstract class Game {
 	protected End end;
 	protected boolean hasPromotable;
 	protected Piece promotable;
+
 	/**
 	 * Instantiates new game
 	 */
@@ -36,8 +37,10 @@ public abstract class Game {
 		prevPositions.add(FEN.toFENFull(board));
 		halfMoveClock = 0;
 	}
+
 	/**
 	 * Instantiates new game with list containing information of saved game
+	 * 
 	 * @param toLoad - information of saved game
 	 */
 	public Game(List<String> toLoad) {
@@ -56,6 +59,7 @@ public abstract class Game {
 
 	/**
 	 * Gets the white player
+	 * 
 	 * @return the white player
 	 */
 	public Player getWhitePlayer() {
@@ -64,6 +68,7 @@ public abstract class Game {
 
 	/**
 	 * Sets the white player
+	 * 
 	 * @param player the player to assign to white
 	 */
 	public void setWhitePlayer(Player player) {
@@ -72,6 +77,7 @@ public abstract class Game {
 
 	/**
 	 * Gets the black player
+	 * 
 	 * @return the black player
 	 */
 	public Player getBlackPlayer() {
@@ -80,6 +86,7 @@ public abstract class Game {
 
 	/**
 	 * Sets the black player
+	 * 
 	 * @param player the black player
 	 */
 	public void setBlackPlayer(Player player) {
@@ -88,11 +95,13 @@ public abstract class Game {
 
 	/**
 	 * Returns the player whose turn it is
+	 * 
 	 * @return the current player
 	 */
 	public Player getCurrentPlayer() {
 		return currentPlayer;
 	}
+
 	/**
 	 * Swaps the current player (call at end of turn)
 	 */
@@ -103,18 +112,30 @@ public abstract class Game {
 			this.currentPlayer = getWhitePlayer();
 		}
 	}
+
 	/**
 	 * Gets the game board
+	 * 
 	 * @return the game board
 	 */
 	public Board getBoard() {
 		return board;
 	}
-	
+
+	/**
+	 * Gets the previous board positions
+	 * 
+	 * @return an array of previous positions
+	 */
 	public ArrayList<String> getPrevPositions() {
 		return prevPositions;
 	}
-	
+
+	/**
+	 * Gets the number of half move since a pawn move or a capture
+	 * 
+	 * @return halfMoveClock
+	 */
 	public int getHalfMoveClock() {
 		return halfMoveClock;
 	}
@@ -143,6 +164,7 @@ public abstract class Game {
 
 	/**
 	 * Gets all legal moves of the selected piece
+	 * 
 	 * @param selectedPiece the piece to check moves
 	 * @return a set of that piece's legal moves
 	 */
@@ -155,10 +177,12 @@ public abstract class Game {
 		}
 		return ret;
 	}
+
 	/**
 	 * Handles UI move commands Checks if a move is legal. If move is legal, moves
 	 * piece. Then ends turn and switches current player. Throws an exception if
 	 * there is no piece selected.
+	 * 
 	 * @param piece the Piece to move
 	 * @param i     the destination row as an int
 	 * @param j     the destination column as an int
@@ -188,16 +212,17 @@ public abstract class Game {
 			if (end != null) {
 				endGame(end);
 			}
-		} 
-		else {
+		} else {
 			throw new Exception();
 		}
 		sendCaptured();
 	}
+
 	/**
 	 * Promotes piece at specified location to specified piece type
-	 * @param i - row of piece to promote
-	 * @param j - col of piece to promote
+	 * 
+	 * @param i            - row of piece to promote
+	 * @param j            - col of piece to promote
 	 * @param promotePiece - type of piece to promote to
 	 */
 	public void promote(int i, int j, PieceType promotePiece) {
@@ -214,16 +239,17 @@ public abstract class Game {
 		}
 		board.promotePawn(newPiece);
 		checkCheck.update();
+		updateClient();
 		notifyClientCheck();
 		end = isGameOver();
 		if (end != null) {
 			endGame(end);
 		}
-		updateClient();
 	}
 
 	/**
 	 * Returns a set of all pieces that have a king in check.
+	 * 
 	 * @return the set of all checking pieces
 	 */
 	public List<String> getCheckingPieces() {
@@ -237,6 +263,7 @@ public abstract class Game {
 
 	/**
 	 * Checks if the game is over
+	 * 
 	 * @return true if the game is over, else false
 	 */
 	public End isGameOver() {
@@ -257,22 +284,28 @@ public abstract class Game {
 			return End.FIFTYMOVE;
 		return null;
 	}
+
 	/**
 	 * Returns if game has ended
+	 * 
 	 * @return true if game has ended false otherwise
 	 */
 	public boolean end() {
 		return end != null;
 	}
+
 	/**
 	 * Returns cause of game ending
+	 * 
 	 * @return cause of game ending
 	 */
 	public String getCause() {
 		return end.toString();
 	}
+
 	/**
 	 * Returns the piece in the given space
+	 * 
 	 * @param i the row as an int
 	 * @param j the column as an int
 	 * @return the piece at row i, col j
@@ -282,7 +315,9 @@ public abstract class Game {
 	}
 
 	/**
-	 * Returns true if the board has a piece in the given space, false if it is empty
+	 * Returns true if the board has a piece in the given space, false if it is
+	 * empty
+	 * 
 	 * @param i the row as an int
 	 * @param j the column as an int
 	 * @return whether the given space is occupied
@@ -290,32 +325,41 @@ public abstract class Game {
 	public boolean hasPiece(int i, int j) {
 		return board.hasPiece(i, j);
 	}
+
 	/**
 	 * Returns all captured pieces
+	 * 
 	 * @return all captured pieces
 	 */
 	public List<String> getCapturedPieces() {
 		return board.getCapturedPieces();
 	}
+
 	/**
 	 * Ends game
+	 * 
 	 * @param gameOver - cause of game ending
 	 */
 	public abstract void endGame(End gameOver);
+
 	/**
 	 * Notifies client they are in check
 	 */
 	public abstract void notifyClientCheck();
+
 	/**
 	 * Sends all captured pieces to client
 	 */
 	public abstract void sendCaptured();
+
 	/**
 	 * Sends board to client so client can update pieces
 	 */
 	public abstract void updateClient();
+
 	/**
 	 * Sends information for client to promote when pawn reaches other side
+	 * 
 	 * @param i - row of pawn to promote
 	 * @param j - col of pawn to promote
 	 */

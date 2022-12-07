@@ -1,8 +1,12 @@
 import java.util.Iterator;
 
 /**
- * This class represents a King Piece in our game of Chess. Kings move one
- * square in any direction, orthogonal or diagonal.
+ * @author Adrian Moore
+ * 
+ *         Contributors: Martin Cox
+ * 
+ *         This class represents a King Piece in our game of Chess. Kings move
+ *         one square in any direction, orthogonal or diagonal.
  */
 public class King extends Piece {
 

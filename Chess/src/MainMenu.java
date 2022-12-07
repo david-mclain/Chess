@@ -34,6 +34,8 @@ public class MainMenu {
 	private static JRadioButton competitive;
 	private static ButtonGroup buttons;
 	private static Font font = new Font("Monospaced", Font.PLAIN, 15);
+	@SuppressWarnings("unused")
+	private static Client client;
 	
 	public static void main(String[] args) {
 		createMenu();
@@ -69,10 +71,10 @@ public class MainMenu {
 		create.setFont(font);
 		create.addActionListener(e -> createServer());
 		
-		normal.setBounds(225, 75, 130, 25);
+		normal.setBounds(225, 110, 130, 25);
 		normal.setFont(font);
 		normal.setBackground(Color.WHITE);
-		competitive.setBounds(225, 150, 130, 25);
+		competitive.setBounds(225, 185, 130, 25);
 		competitive.setFont(font);
 		competitive.setBackground(Color.WHITE);
 		normal.setSelected(true);
@@ -88,7 +90,7 @@ public class MainMenu {
 		frame.add(panel);
 		frame.setResizable(false);
 		frame.setLayout(null);
-		frame.setSize(400, 400);
+		frame.setSize(400, 370);
 		frame.setVisible(true);
 	}
 	/**
@@ -125,7 +127,7 @@ public class MainMenu {
 						toLoad.add(in.nextLine().trim());
 					}
 					in.close();
-					new LocalClient(toLoad, toLoad.get(2).equals("true"));
+					client = new LocalClient(toLoad, toLoad.get(2).equals("true"));
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
 				}
@@ -137,7 +139,7 @@ public class MainMenu {
 			frame.dispose();
 		}
 		else if (format.equals("local")) {
-			new LocalClient(competitive.isSelected());
+			client = new LocalClient(competitive.isSelected());
 			frame.dispose();
 		}
 		else {
@@ -146,7 +148,7 @@ public class MainMenu {
 			while (!validIP(serverIP)) {
 				serverIP = getServerIP();
 			}
-			new ServerClient(competitive.isSelected(), serverIP, 59896);
+			client = new ServerClient(competitive.isSelected(), serverIP, 59896);
 		}
 	}
 	/**
@@ -187,6 +189,11 @@ public class MainMenu {
 				null,
 				null,
 				"127.0.0.1");
+	}
+	public static void reset() {
+		client = null;
+		System.gc();
+		main(null);
 	}
 	
 }
