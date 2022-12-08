@@ -49,7 +49,7 @@ public class ServerClient extends Client {
 	 */
 	private void connect(String ip, int port) {
 		try {
-			socket = new Socket(ip, port);
+			socket = new Socket(ip, 10000);
 			in = new DataInputStream(socket.getInputStream());
 			out = new DataOutputStream(socket.getOutputStream());
 		} catch (UnknownHostException e) {

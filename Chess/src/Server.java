@@ -21,7 +21,7 @@ public class Server {
 	
 	public static void main(String[] args) throws Exception {
 		System.out.println(InetAddress.getLocalHost());
-		try (var listener = new ServerSocket(59896)) {
+		try (var listener = new ServerSocket(10000)) {
 			listener.setSoTimeout(20000);
 			System.out.println("The Chess server is running...");
 			var pool = Executors.newFixedThreadPool(200);
