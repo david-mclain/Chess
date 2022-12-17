@@ -1,17 +1,12 @@
-/**
- * 
- * @author Adrian Moore
- * 
- *         Contributors: Martin Cox
- * 
- *         This class represents a Rook Piece in our game of Chess. Rooks move
- *         orthogonally and can move any number of squares.
+/*
+ * File: Rook.java
+ * Contributors: David McLain, Adrian Moore, Martin Cox, Luke Niemann
+ * Description: This class represents a Rook Piece in our game of Chess.
+ * Rooks move orthogonally and can move any number of squares.
  */
 public class Rook extends Piece {
-
 	/**
 	 * Constructor for Rook. Assigns color and starting position.
-	 * 
 	 * @param row
 	 * @param col
 	 * @param color
@@ -24,17 +19,14 @@ public class Rook extends Piece {
 		else
 			icon = "src/rook_white.png";
 	}
-
 	/**
 	 * Secondary constructor for Rook which creates a copy of the param Piece
-	 * 
 	 * @param piece
 	 */
 	public Rook(Piece piece) {
 		this(piece.getRow(), piece.getCol(), piece.getColor());
 		this.legalMoves.addAll(piece.legalMoves);
 	}
-
 	/**
 	 * Generates all legal moves the Rook can make. For each of the four orthogonal
 	 * directions, we search outwards from the Rook's current position, stopping
@@ -42,7 +34,6 @@ public class Rook extends Piece {
 	 * legal moves. If we hit a square with a Piece on it, we add it to our legal
 	 * moves if the Piece is the opposite color of the Rook, then we stop searching
 	 * since we can't move through other Pieces.
-	 * 
 	 * @param board
 	 */
 	public void updateLegalMoves(Board board) {
@@ -92,19 +83,15 @@ public class Rook extends Piece {
 			}
 		}
 	}
-
 	/**
 	 * Getter for the Rook's unicode character
-	 * 
 	 * @return a unicode character
 	 */
 	public String getString() {
 		return color == Side.BLACK ? "\u2656" : "\u265C";
 	}
-
 	/**
 	 * Returns as the Rook as a String with the Rook's color
-	 * 
 	 * @return the Rook as a String
 	 */
 	public String toString() {

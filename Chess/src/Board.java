@@ -4,11 +4,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 /*
  * File: Board.java
- * Author: Adrian Moore
- * Contributors: Adrian Moore, David McLain, Martin Cox
+ * Contributors: David McLain, Adrian Moore, Martin Cox, Luke Niemann
  * Description: This class represents a Chess board in our game of Chess which is stored as a
  * 2D Piece array. The Board also keeps track of each player's captured pieces,
  * whether a player is in check, each player's castling rights, and the current
@@ -25,7 +23,6 @@ public class Board {
 	private boolean whiteLongCastle;
 	private Move enPassantSquare;
 	private boolean isCopy;
-
 	/**
 	 * Constructor for Board. Places all the pieces on their starting positions.
 	 */
@@ -64,11 +61,9 @@ public class Board {
 		updateInCheck();
 		updateLegalMoves();
 	}
-
 	/**
 	 * Secondary constructor for board which creates a deep copy of the param
 	 * oldBoard to simulate moves for calculating checks
-	 * 
 	 * @param oldBoard
 	 */
 	public Board(Board oldBoard) {
@@ -109,7 +104,6 @@ public class Board {
 
 	/**
 	 * Instantiates board with information of saved game
-	 * 
 	 * @param toLoad - information of saved game to load
 	 * @throws IOException
 	 */
@@ -135,68 +129,54 @@ public class Board {
 		updateInCheck();
 		updateLegalMoves();
 	}
-
 	/**
 	 * Getter for board
-	 *
 	 * @return board
 	 */
 	public Piece[][] getBoard() {
 		return board;
 	}
-
 	/**
 	 * Getter for captured pieces
-	 * 
 	 * @return captured pieces
 	 */
 	public ArrayList<String> getCapturedPieces() {
 		return capturedPieces;
 	}
-
 	/**
 	 * Getter for whether a player is in check
-	 * 
 	 * @param color
 	 * @return true if the player of the param color is in check, false if not
 	 */
 	public boolean getCheck(Side color) {
 		return color == Side.BLACK ? blackInCheck : whiteInCheck;
 	}
-
 	/**
 	 * Getter for whether a player has the right to castle king-side
-	 * 
 	 * @param color
 	 * @return true if the player can short-castle, false if not
 	 */
 	public boolean getShortCastle(Side color) {
 		return color == Side.BLACK ? blackShortCastle : whiteShortCastle;
 	}
-
 	/**
 	 * Getter for whether a player has the right to castle queen-side
-	 * 
 	 * @param color
 	 * @return true if the player can long-castle, false if not
 	 */
 	public boolean getLongCastle(Side color) {
 		return color == Side.BLACK ? blackLongCastle : whiteLongCastle;
 	}
-
 	/**
 	 * Getter for the current en passant square, which null if the previous move was
 	 * not a double square Pawn move
-	 * 
 	 * @return the en passant square
 	 */
 	public Move getEnPassantSquare() {
 		return enPassantSquare;
 	}
-
 	/**
 	 * Returns whether the specified square has a Piece on it
-	 * 
 	 * @param row
 	 * @param col
 	 * @return true if the square has a piece, false if not
@@ -204,10 +184,8 @@ public class Board {
 	public boolean hasPiece(int row, int col) {
 		return board[row][col] != null;
 	}
-
 	/**
 	 * Returns the Piece at the specified square
-	 * 
 	 * @param row
 	 * @param col
 	 * @return Piece
@@ -215,11 +193,9 @@ public class Board {
 	public Piece getPiece(int row, int col) {
 		return board[row][col] == null ? null : board[row][col];
 	}
-
 	/**
 	 * Returns all the legal moves of all the Pieces of a specified color as a
 	 * HashMap. The keys are Pieces and the values are sets of moves.
-	 * 
 	 * @param color
 	 * @return a HashMap of the legal moves
 	 */
@@ -233,11 +209,9 @@ public class Board {
 		}
 		return allLegalMoves;
 	}
-
 	/**
 	 * Places the specified Piece (which is replacing a promoted Pawn) onto the
 	 * board
-	 * 
 	 * @param piece - piece to promote to
 	 */
 	public void promotePawn(Piece piece) {
@@ -246,10 +220,8 @@ public class Board {
 		updateInCheck();
 		updateLegalMoves();
 	}
-
 	/**
 	 * Executes the specified move on the specified Piece.
-	 * 
 	 * @param piece - piece to move
 	 * @param move  - position to move to
 	 */
@@ -264,13 +236,11 @@ public class Board {
 		updateInCheck();
 		updateLegalMoves();
 	}
-
 	/**
 	 * Performs auxiliary actions for each of the special move types. If the move is
 	 * a capture, the captured Piece gets added to its corresponding array. If the
 	 * move is a castle, the corresponding Rook gets moved. If the move is an en
 	 * passant, the corresponding Pawn get captured.
-	 * 
 	 * @param piece - piece to move
 	 * @param move  - position to move to
 	 */
@@ -305,11 +275,9 @@ public class Board {
 			}
 		}
 	}
-
 	/**
 	 * Updates the en passant square if the current move is a Pawn double square
 	 * move. The en passant square only available for one move before it is reset.
-	 * 
 	 * @param piece - piece to update
 	 * @param move  - move being executed
 	 */
@@ -323,13 +291,11 @@ public class Board {
 			enPassantSquare = null;
 		}
 	}
-
 	/**
 	 * Updates castling rights. A player loses the right to castle if they move
 	 * their King, the right to castle king-side if they move their king-side Rook
 	 * or their king-side Rook is captured, and the right to castle queen-side if
 	 * they move their queen-side Rook or their queen-side Rook is captured
-	 * 
 	 * @param piece - piece to update rights for
 	 * @param move  - move to execute
 	 */
@@ -379,7 +345,6 @@ public class Board {
 			}
 		}
 	}
-
 	/**
 	 * Updates the legal moves of each Piece in the Board
 	 */
@@ -400,7 +365,6 @@ public class Board {
 			}
 		}
 	}
-
 	/**
 	 * Updates whether each player is in check
 	 */
@@ -428,7 +392,6 @@ public class Board {
 			}
 		}
 	}
-
 	/**
 	 * Returns string representation of current board
 	 */

@@ -6,10 +6,9 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 /*
  * File: GameOverMessage.java
- * Author: Martin Cox
- * Contributors: Martin Cox, David McLain
+ * Contributors: David McLain, Adrian Moore, Martin Cox, Luke Niemann
  * Description: This class is used for creating a panel to show in popup
- * when game ends which includes the cause of game ending and who won 
+ * when game ends which includes the cause of game ending and who won
  */
 @SuppressWarnings("serial")
 public class GameOverMessage extends JPanel {

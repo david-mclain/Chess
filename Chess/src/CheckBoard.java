@@ -1,10 +1,13 @@
-
+/*
+ * File: CheckBoard.java
+ * Contributors: David McLain, Adrian Moore, Martin Cox, Luke Niemann
+ * Description: CheckBoard is used for executing a move and handling
+ * if move is a capture, en passant, etc...
+ */
 public class CheckBoard extends Board {
-
 	public CheckBoard(Board board) {
 		super(board);
 	}
-
 	/**
 	 * Executes the specified move on the specified Piece. If the move is a capture,
 	 * the captured Piece gets added to its corresponding array. If the move is a
@@ -20,7 +23,4 @@ public class CheckBoard extends Board {
 		piece.move(move);
 		updateInCheck();
 	}
-
-	
-	
 }

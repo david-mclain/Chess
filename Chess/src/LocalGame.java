@@ -1,13 +1,11 @@
 import java.util.List;
 /*
  * File: Game.java
- * Author: David McLain
- * Contributors: David McLain, Martin Cox
+ * Contributors: David McLain, Adrian Moore, Martin Cox, Luke Niemann
  * Description: This class is used for maintaining game state when format is
  * local
  */
 public class LocalGame extends Game {
-
 	private LocalClient client;
 	/**
 	 * Instantiates LocalGame

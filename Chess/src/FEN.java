@@ -1,19 +1,14 @@
 /*
  * File: FEN.java
- * Author: Luke Niemann
- * Contributors: Luke Niemann, Adrian Moore
+ * Contributors: David McLain, Adrian Moore, Martin Cox, Luke Niemann
  * Description: This class is used for converting to and from FEN (Forsyth–Edwards Notation)
- * the definition of this notation can be found here: 
+ * the definition of this notation can be found here:
  * https://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation
- * 
  */
-
 public class FEN {
-
 	/**
 	 * toBoard converts a FEN string into a board but ignores the arguments on the
 	 * end
-	 * 
 	 * @param String: fen
 	 * @return Piece[][] new Board object
 	 */
@@ -84,7 +79,6 @@ public class FEN {
 	/**
 	 * toFen converts a board into a FEN string. Does not contain arguments since
 	 * Board does not
-	 * 
 	 * @param Piece[][]: board
 	 * @return String: fen
 	 */
@@ -165,7 +159,6 @@ public class FEN {
 	/**
 	 * Converts the param board to a FEN String, including castling rights and the
 	 * en passant square
-	 * 
 	 * @param board
 	 * @return
 	 */

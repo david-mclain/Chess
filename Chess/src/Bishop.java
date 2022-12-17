@@ -1,16 +1,12 @@
-/**
- * @author Adrian Moore
- * 
- *         Contributors: Martin Cox
- * 
- *         This class represents a Bishop Piece in our game of Chess. Bishops
- *         move diagonally and can move any number of squares.
+/*
+ * File: Bishop.java
+ * Contributors: David McLain, Adrian Moore, Martin Cox, Luke Niemann
+ * Description: This class represents a Bishop Piece in our game of Chess.
+ * Bishops move diagonally and can move any number of squares.
  */
 public class Bishop extends Piece {
-
 	/**
-	 * Constructor for Bishop. Assigns color and starting position.
-	 * 
+	 * Constructor for Bishop. Assigns color and starting position
 	 * @param row
 	 * @param col
 	 * @param color
@@ -23,17 +19,14 @@ public class Bishop extends Piece {
 		else
 			icon = "src/bishop_white.png";
 	}
-
 	/**
 	 * Secondary constructor for Bishop which creates a copy of the param Piece
-	 * 
 	 * @param piece
 	 */
 	public Bishop(Piece piece) {
 		this(piece.getRow(), piece.getCol(), piece.getColor());
 		this.legalMoves.addAll(piece.legalMoves);
 	}
-
 	/**
 	 * Generates all legal moves the Bishop can make. For each of the four diagonal
 	 * directions, we search outwards from the Bishop's current position, stopping
@@ -41,7 +34,6 @@ public class Bishop extends Piece {
 	 * legal moves. If we hit a square with a Piece on it, we add it to our legal
 	 * moves if the Piece is the opposite color of the Bishop, then we stop
 	 * searching since we can't move through other Pieces.
-	 * 
 	 * @param board
 	 */
 	public void updateLegalMoves(Board board) {
@@ -91,19 +83,15 @@ public class Bishop extends Piece {
 			}
 		}
 	}
-
 	/**
 	 * Getter for the Bishop's unicode character
-	 * 
 	 * @return a unicode character
 	 */
 	public String getString() {
 		return color == Side.BLACK ? "\u2657" : "\u265D";
 	}
-
 	/**
 	 * Returns as the Bishop as a String with the Bishop's color
-	 * 
 	 * @return the Bishop as a String
 	 */
 	public String toString() {

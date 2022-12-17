@@ -1,20 +1,15 @@
-/**
- * @author Adrian Moore
- * 
- *         Contributors: Martin Cox
- * 
- *         This class represents a Pawn Piece in our game of Chess. Pawns can
- *         move one square forward and capture one square diagonally forward. On
- *         the first move a Pawn can move two square forward, but it is then
- *         vulnerable to being captured en passant for one turn. Pawns can be
- *         promoted to another piece when they reach the opposite side of the
- *         Board.
+/*
+ * File: Pawn.java
+ * Contributors: David McLain, Adrian Moore, Martin Cox, Luke Niemann
+ * Description: This class represents a Pawn Piece in our game of Chess.
+ * Pawns can move one square forward and capture one square diagonally
+ * forward. On the first move a Pawn can move two square forward, but it
+ * is then vulnerable to being captured en passant for one turn. Pawns can
+ * be promoted to another piece when they reach the opposite side of the Board.
  */
 public class Pawn extends Piece {
-
 	/**
 	 * Constructor for Pawn. Assigns color and starting position.
-	 * 
 	 * @param row
 	 * @param col
 	 * @param color
@@ -27,24 +22,19 @@ public class Pawn extends Piece {
 		else
 			icon = "src/pawn_white.png";
 	}
-
 	/**
 	 * Secondary constructor for Pawn which creates a copy of the param piece
-	 * 
 	 * @param piece
 	 */
 	public Pawn(Piece piece) {
 		this(piece.getRow(), piece.getCol(), piece.getColor());
 		this.legalMoves.addAll(piece.legalMoves);
 	}
-
 	/**
 	 * Generates all legal moves the Pawn can make. We have different checks for
 	 * each color because Pawns can only move forward. We add a square to our legal
 	 * moves if it is in bounds, unoccupied (for forward moves) or is occupied by a
-	 * piece of the opposite color (for diagonal moves). En passant needs to be
-	 * added
-	 * 
+	 * piece of the opposite color (for diagonal moves). En passant needs to be added
 	 * @param board
 	 */
 	public void updateLegalMoves(Board board) {
@@ -73,28 +63,22 @@ public class Pawn extends Piece {
 				legalMoves.add(enPassant);
 		}
 	}
-
 	/**
 	 * Returns whether the Pawn can be promoted to another non-King piece
-	 * 
 	 * @return if the Pawn has reached the opposite side of the board
 	 */
 	public boolean isPromoteable() {
 		return ((getColor() == Side.WHITE && row == 0) || (getColor() == Side.BLACK && row == 7));
 	}
-
 	/**
 	 * Getter for the Pawn's unicode character
-	 * 
 	 * @return a unicode character
 	 */
 	public String getString() {
 		return color == Side.BLACK ? "\u2659" : "\u265F";
 	}
-
 	/**
 	 * Returns as the Pawn as a String with the Pawn's color
-	 * 
 	 * @return the Pawn as a String
 	 */
 	public String toString() {

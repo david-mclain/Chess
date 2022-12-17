@@ -3,16 +3,17 @@ import java.io.UnsupportedEncodingException;
 import java.util.Scanner;
 /*
  * File: TestMoves.java
- * Author: David McLain
- * Contributors: David McLain, Adrian Moore
+ * Contributors: David McLain, Adrian Moore, Martin Cox, Luke Niemann
  * Description: This class is used for testing board movements and possibilities
  * without having to create UI
  */
 public class TestMoves {
 	private static Board board;
 	private static Scanner in;
-
-	public static void main(String[] args) {		
+	/**
+	 * Starts testing program
+	 */
+	public static void main(String[] args) {
 		in = new Scanner(System.in);
 
 		PrintStream out = null;
@@ -55,7 +56,6 @@ public class TestMoves {
 			}
 		}
 	}
-
 	/**
 	 * Prints a representation of the board using UTF characters
 	 * @param out - stream for printing
@@ -78,7 +78,6 @@ public class TestMoves {
 		out.println("  +-------------------------------+  ");
 		out.println("    A   B   C   D   E   F   G   H   ");
 	}
-
 	/**
 	 * Prints all legal moves in the current board
 	 * @param board - current board
@@ -95,7 +94,6 @@ public class TestMoves {
 		}
 		out.println();
 	}
-
 	/**
 	 * Prints all legal moves of the specified piece
 	 * @param piece - piece to print moves for

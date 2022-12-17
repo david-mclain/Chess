@@ -12,11 +12,9 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-
 /*
  * File: MainMenu.java
- * Author: David McLain
- * Contributors: David McLain, Martin Cox
+ * Contributors: David McLain, Adrian Moore, Martin Cox, Luke Niemann
  * Description: This class is used for creating a main menu to create a chess client.
  * If user decides to create server, it will allow them to then connect to server from
  * within the same main menu after. User has options of choosing competitive mode or not
@@ -36,14 +34,13 @@ public class MainMenu {
 	private static Font font = new Font("Monospaced", Font.PLAIN, 15);
 	@SuppressWarnings("unused")
 	private static Client client;
-	
 	public static void main(String[] args) {
 		createMenu();
 	}
 	/**
 	 * Creates UI for main menu
 	 */
-	private static void createMenu() {		
+	private static void createMenu() {
 		frame = new JFrame("Main Menu");
 		panel = new JPanel();
 		local = new JButton("Local Game");
@@ -53,11 +50,11 @@ public class MainMenu {
 		normal = new JRadioButton("Normal");
 		competitive = new JRadioButton("Competitive");
 		buttons = new ButtonGroup();
-		
+
 		panel.setLayout(null);
 		panel.setBounds(0, 0, 400, 300);
 		panel.setBackground(Color.WHITE);
-		
+
 		local.setBounds(25, 25, 150, 50);
 		local.setFont(font);
 		local.addActionListener(e -> createClient("local"));
@@ -70,7 +67,7 @@ public class MainMenu {
 		create.setBounds(25, 250, 150, 50);
 		create.setFont(font);
 		create.addActionListener(e -> createServer());
-		
+
 		normal.setBounds(225, 110, 130, 25);
 		normal.setFont(font);
 		normal.setBackground(Color.WHITE);
@@ -80,7 +77,7 @@ public class MainMenu {
 		normal.setSelected(true);
 		buttons.add(normal);
 		buttons.add(competitive);
-		
+
 		panel.add(normal);
 		panel.add(competitive);
 		panel.add(local);
@@ -127,7 +124,7 @@ public class MainMenu {
 						toLoad.add(in.nextLine().trim());
 					}
 					in.close();
-					client = new LocalClient(toLoad, toLoad.get(2).equals("true"));
+					new LocalClient(toLoad, toLoad.get(2).equals("true"));
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
 				}
@@ -139,7 +136,7 @@ public class MainMenu {
 			frame.dispose();
 		}
 		else if (format.equals("local")) {
-			client = new LocalClient(competitive.isSelected());
+			new LocalClient(competitive.isSelected());
 			frame.dispose();
 		}
 		else {
@@ -148,7 +145,7 @@ public class MainMenu {
 			while (!validIP(serverIP)) {
 				serverIP = getServerIP();
 			}
-			client = new ServerClient(competitive.isSelected(), serverIP, 59896);
+			new ServerClient(competitive.isSelected(), serverIP, 10000);
 		}
 	}
 	/**
@@ -190,10 +187,4 @@ public class MainMenu {
 				null,
 				"127.0.0.1");
 	}
-	public static void reset() {
-		client = null;
-		System.gc();
-		main(null);
-	}
-	
 }

@@ -5,14 +5,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 /*
  * File: Square.java
- * Author: David McLain
+ * Contributors: David McLain, Adrian Moore, Martin Cox, Luke Niemann
  * Description: This class is used for creating a panel for user to interact with
  * in game which will display current piece, if move is valid panel will highlight yellow,
  * if panel contains piece responsible for check panel will highlight red
  */
 @SuppressWarnings("serial")
 public class Square extends JPanel {
-	
 	private String piece;
 	private Color defaultColor;
 	private JLabel label;
@@ -55,5 +54,4 @@ public class Square extends JPanel {
 			label.setIcon(null);
 		}
 	}
-	
 }

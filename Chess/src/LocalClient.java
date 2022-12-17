@@ -8,18 +8,14 @@ import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-
 /*
- * File: ServerClient.java
- * Author: David McLain
- * Contributors: David McLain, Martin Cox
+ * File: LocalClient.java
+ * Contributors: David McLain, Adrian Moore, Martin Cox, Luke Niemann
  * Description: This class is used for any UI handling and user input for a
  * local game
  */
 public class LocalClient extends Client {
-
 	private LocalGame game;
-
 	/**
 	 * Instantiates new LocalClient
 	 * @param competitive - if game is competitive
@@ -30,7 +26,6 @@ public class LocalClient extends Client {
 		setMenu();
 		start("white");
 	}
-
 	/**
 	 * Instantiates new LocalClient with game to load
 	 * @param toLoad      - game to load
@@ -42,7 +37,6 @@ public class LocalClient extends Client {
 		setMenu();
 		start(toLoad.get(1));
 	}
-
 	/**
 	 * Sets menu of client
 	 */
@@ -52,25 +46,11 @@ public class LocalClient extends Client {
 		JMenuItem saveGame = new JMenuItem("Save Game");
 		saveGame.addActionListener(e -> saveGame());
 		save.add(saveGame);
-		
-		JMenu main = new JMenu("Exit");
-		JMenuItem mainMenu = new JMenuItem("Main Menu");
-		mainMenu.addActionListener(e -> mainMenuReturn());
-		main.add(mainMenu);
-		
-		menu.add(main);
 		menu.add(save);
 		frame.setJMenuBar(menu);
 	}
 	/**
-	 * Returns to main menu
-	 */
-	private void mainMenuReturn() {
-		frame.dispose();
-		MainMenu.reset();
-	}
-	/**
-	 * Saves current game
+	 * Saves current game to file that client specifies
 	 */
 	private void saveGame() {
 		List<String> toSave = new ArrayList<>();
@@ -106,7 +86,6 @@ public class LocalClient extends Client {
 			}
 		}
 	}
-
 	/**
 	 * Selects piece in game
 	 */
@@ -148,7 +127,6 @@ public class LocalClient extends Client {
 		}
 		game.promote(i, j, promotePiece);
 	}
-
 	/**
 	 * Checks if game has ended
 	 */
@@ -159,5 +137,4 @@ public class LocalClient extends Client {
 			endGame(cause);
 		}
 	}
-
 }

@@ -10,8 +10,7 @@ import java.net.UnknownHostException;
 import javax.swing.Timer;
 /*
  * File: ServerClient.java
- * Author: David McLain
- * Contributors: David McLain, Luke Niemann
+ * Contributors: David McLain, Adrian Moore, Martin Cox, Luke Niemann
  * Description: This class is used for any UI handling and user input for an
  * online game.
  */
@@ -49,7 +48,7 @@ public class ServerClient extends Client {
 	 */
 	private void connect(String ip, int port) {
 		try {
-			socket = new Socket(ip, 10000);
+			socket = new Socket(ip, port);
 			in = new DataInputStream(socket.getInputStream());
 			out = new DataOutputStream(socket.getOutputStream());
 		} catch (UnknownHostException e) {
@@ -69,13 +68,14 @@ public class ServerClient extends Client {
 			public void run() {
 				try {
 					String response = in.readUTF();
+					frame.setTitle("Chess - Player " + (response.charAt(8) == 'B' ? "Black" : "White"));
 					response = in.readUTF();
+					System.out.println(response);
 					update(response.substring(6));
 					while (true) {
 						try {
 							Thread.sleep(10);
 						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 						if (in.available() > 0) {
@@ -107,9 +107,6 @@ public class ServerClient extends Client {
 							else if (response.startsWith("PROMOTE")) {
 								promote(Character.getNumericValue(response.charAt(8)), Character.getNumericValue(response.charAt(9)));
 							}
-							else if (response.startsWith("INVALID_MOVE")) {
-								
-							}
 							else if (response.startsWith("ERROR")) {
 								editMessage(response.substring(6));
 							}
@@ -119,11 +116,11 @@ public class ServerClient extends Client {
 						}
 					}
 					out.writeUTF("QUIT");
-				} 
+				}
 				catch (SocketException e) {}
 				catch (Exception e) {}
 				finally {
-					try {socket.close();} 
+					try {socket.close();}
 					catch (IOException e) {}
 					frame.dispose();
 				}
@@ -176,11 +173,10 @@ public class ServerClient extends Client {
 	@Override
 	public void promote(int i, int j, int type) {
 		try {
-			out.writeUTF("PROMOTE " + i + "" + j + "" + type);	
+			out.writeUTF("PROMOTE " + i + "" + j + "" + type);
 		}
 		catch(IOException e) {}
 	}
-
 	@Override
 	protected void checkEnd() {}
 

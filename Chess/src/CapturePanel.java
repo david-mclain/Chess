@@ -8,13 +8,11 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 /*
  * File: CapturePanel.java
- * Author: Martin Cox
- * Contributors: Martin Cox, David McLain
+ * Contributors: David McLain, Adrian Moore, Martin Cox, Luke Niemann
  * Description: This class is used for displaying captured pieces
  */
 @SuppressWarnings("serial")
 public class CapturePanel extends JPanel {
-	
 	private List<String> capturedPieces;
 	private JLabel pawn;
 	private JLabel pawnAmount;
@@ -41,28 +39,28 @@ public class CapturePanel extends JPanel {
 		pawnAmount.setFont(font);
 		pawnAmount.setForeground(Color.WHITE);
 		add(pawnAmount);
-		
+
 		rook = new JLabel(new ImageIcon("src/rook_" + end));
 		add(rook);
 		rookAmount = new JLabel("x0", SwingConstants.CENTER);
 		rookAmount.setFont(font);
 		rookAmount.setForeground(Color.WHITE);
 		add(rookAmount);
-		
+
 		knight = new JLabel(new ImageIcon("src/knight_" + end));
 		add(knight);
 		knightAmount = new JLabel("x0", SwingConstants.CENTER);
 		knightAmount.setFont(font);
 		knightAmount.setForeground(Color.WHITE);
 		add(knightAmount);
-		
+
 		bishop = new JLabel(new ImageIcon("src/bishop_" + end));
 		add(bishop);
 		bishopAmount = new JLabel("x0", SwingConstants.CENTER);
 		bishopAmount.setFont(font);
 		bishopAmount.setForeground(Color.WHITE);
 		add(bishopAmount);
-		
+
 		queen = new JLabel(new ImageIcon("src/queen_" + end));
 		add(queen);
 		queenAmount = new JLabel("x0", SwingConstants.CENTER);

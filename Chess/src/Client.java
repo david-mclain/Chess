@@ -30,9 +30,8 @@ import javax.swing.Timer;
 import javax.swing.border.Border;
 /*
  * File: Client.java
- * Author: David McLain
  * Contributors: David McLain, Adrian Moore, Martin Cox, Luke Niemann
- * Description: This class is used for any UI handling and user input. 
+ * Description: This class is used for any UI handling and user input.
  * Communicates to controllers and servers for sending and receiving information
  * of current game state.
  */
@@ -71,17 +70,23 @@ public abstract class Client {
 	private Font font = new Font("Monospaced", Font.PLAIN, 40);
 	protected Border border = BorderFactory.createMatteBorder(5, 5, 5, 5, Color.BLACK);
 	protected Border highlightBorder = BorderFactory.createMatteBorder(8, 8, 8, 8, Color.YELLOW);
-
 	/**
 	 * Instantiates instance of clients
-	 * 
 	 * @param competitive - if game mode is competitive or not
 	 */
 	Client(boolean competitive) {
 		this(competitive, 0, 600, 600);
 	}
-	
+	/**
+	 * Instantiates instance of client with already processed information from loading game
+	 * @param competitive - boolean containing information as to if game is competitive
+	 * @param cur - current player
+	 * @param whiteTime - time white player has remaining
+	 * @param blackTime - time black player has remaining
+	 */
 	public Client(boolean competitive, int cur, int whiteTime, int blackTime) {
+		if (this instanceof ServerClient)
+			System.out.println("true");
 		this.competitive = competitive;
 		pieceChosen = false;
 		legalMoves = new ArrayList<>();
@@ -138,38 +143,38 @@ public abstract class Client {
 	 */
 	private void createTimerUI() {
 		Color color = new Color(207, 185, 151);
-		
+
 		whiteTimerPanel = new JPanel();
 		whiteTimerPanel.setBackground(color);
 		whiteTimerPanel.setBorder(border);
 		whiteTimerPanel.setBounds(940, 25, 220, 100);
 		whiteTimerPanel.setLayout(new GridLayout(2, 1));
-		
+
 		JLabel white = new JLabel("White", SwingConstants.CENTER);
 		white.setForeground(Color.WHITE);
 		white.setFont(font);
 		whiteTimerDisp = new JLabel((whiteTime / 60) + ":" + (whiteTime % 60 <= 9 ? ("0" + whiteTime % 60) : whiteTime % 60), SwingConstants.CENTER);
 		whiteTimerDisp.setFont(font);
 		whiteTimerDisp.setForeground(Color.WHITE);
-		
+
 		blackTimerPanel = new JPanel();
 		blackTimerPanel.setBackground(color);
 		blackTimerPanel.setBorder(border);
 		blackTimerPanel.setBounds(1190, 25, 220, 100);
 		blackTimerPanel.setLayout(new GridLayout(2, 1));
-		
+
 		JLabel black = new JLabel("Black", SwingConstants.CENTER);
 		black.setForeground(Color.WHITE);
 		black.setFont(font);
 		blackTimerDisp = new JLabel((blackTime / 60) + ":" + (blackTime % 60 <= 9 ? ("0" + blackTime % 60) : blackTime % 60), SwingConstants.CENTER);
 		blackTimerDisp.setFont(font);
 		blackTimerDisp.setForeground(Color.WHITE);
-		
+
 		whiteTimerPanel.add(white);
 		whiteTimerPanel.add(whiteTimerDisp);
 		blackTimerPanel.add(black);
 		blackTimerPanel.add(blackTimerDisp);
-			
+
 		frame.add(whiteTimerPanel);
 		frame.add(blackTimerPanel);
 	}
@@ -191,7 +196,6 @@ public abstract class Client {
 			blackTime--;
 		}
 	}
-
 	/**
 	 * Creates letters and numbers that are displayed on sides and top of board
 	 */
@@ -233,7 +237,6 @@ public abstract class Client {
 
 	/**
 	 * Creates JPanel board for displaying chess board
-	 * 
 	 * @return - board for chess
 	 */
 	protected JPanel getBoard() {
@@ -282,7 +285,6 @@ public abstract class Client {
 	 */
 	protected void endGame(String cause) {
 		if (competitive) {
-			System.out.println("Stopping timers");
 			whiteTimer.stop();
 			blackTimer.stop();
 		}
@@ -303,6 +305,8 @@ public abstract class Client {
 			end = End.FIFTYMOVE;
 		}
 		PopupFactory pf = new PopupFactory();
+		if (this instanceof ServerClient)
+			curPlayer--;
 		GameOverMessage message = new GameOverMessage(curPlayer, end);
 		Popup p = pf.getPopup(frame, message, 350, 450);
 		p.show();
@@ -310,7 +314,6 @@ public abstract class Client {
 
 	/**
 	 * Processes click on square
-	 * 
 	 * @param cur - square that is clicked on
 	 * @param i   - row of square clicked on
 	 * @param j   - col of square clicked on
@@ -319,7 +322,7 @@ public abstract class Client {
 		if (!pieceChosen) {
 			try {
 				selectPiece(i, j);
-			} 
+			}
 			catch (Exception e) {}
 			return;
 		} else {
@@ -331,7 +334,7 @@ public abstract class Client {
 				try {
 					resetSquares();
 					selectPiece(i, j);
-				} 
+				}
 				catch (Exception e) {}
 				return;
 			} else {
@@ -340,7 +343,7 @@ public abstract class Client {
 					resetSquares();
 					checkEnd();
 					pieceChosen = false;
-				} 
+				}
 				catch (Exception e) {}
 				return;
 			}
@@ -388,7 +391,6 @@ public abstract class Client {
 		}
 		curPlayer++;
 	}
-	
 	/**
 	 * Reset all squares background colors to default colors
 	 */
@@ -398,10 +400,8 @@ public abstract class Client {
 		}
 		showCheckingPieces();
 	}
-		
 	/**
 	 * Updates client to display new pieces based on move sent in
-	 * 
 	 * @param fenString - String containing FEN representation of current board
 	 */
 	public void update(String fenString) {
@@ -411,7 +411,9 @@ public abstract class Client {
 		}
 		showCheckingPieces();
 	}
-
+	/**
+	 * Displays pieces that are checking king as red
+	 */
 	private void showCheckingPieces() {
 		for (String s : checkingPieces) {
 			int col = s.charAt(0) - 'A';
@@ -419,10 +421,9 @@ public abstract class Client {
 			squares[row][col].updateLook(Color.RED);
 		}
 	}
-	
 	/**
 	 * Starts timer if competitive is selected
-	 * @param string 
+	 * @param string
 	 */
 	public void start(String string) {
 		if (competitive) {
@@ -491,14 +492,14 @@ public abstract class Client {
 	 */
 	public void promoteFrame(int i, int j) {
 		String color = curPlayer % 2 == 0 ? "_white.png" : "_black.png";
-		
+
 		promote = new JFrame("Promote Piece");
 		promote.setLocationRelativeTo(frame);
-		
+
 		JPanel pieces = new JPanel();
 		pieces.setLayout(null);
 		pieces.setBackground(Color.WHITE);
-		
+
 		JButton rook = new JButton(new ImageIcon("src/rook" + color));
 		rook.setBorder(border);
 		rook.addActionListener(new ActionListener() {
@@ -509,7 +510,7 @@ public abstract class Client {
 		});
 		rook.setBounds(25, 25, 100, 100);
 		pieces.add(rook);
-		
+
 		JButton knight = new JButton(new ImageIcon("src/knight" + color));
 		knight.setBorder(border);
 		knight.addActionListener(new ActionListener() {
@@ -520,7 +521,7 @@ public abstract class Client {
 		});
 		knight.setBounds(130, 25, 100, 100);
 		pieces.add(knight);
-		
+
 		JButton bishop = new JButton(new ImageIcon("src/bishop" + color));
 		bishop.setBorder(border);
 		bishop.addActionListener(new ActionListener() {
@@ -531,7 +532,7 @@ public abstract class Client {
 		});
 		bishop.setBounds(25, 130, 100, 100);
 		pieces.add(bishop);
-		
+
 		JButton queen = new JButton(new ImageIcon("src/queen" + color));
 		queen.setBorder(border);
 		queen.addActionListener(new ActionListener() {
@@ -542,7 +543,7 @@ public abstract class Client {
 		});
 		queen.setBounds(130, 130, 100, 100);
 		pieces.add(queen);
-		
+
 		promote.setContentPane(pieces);
 		promote.setLayout(null);
 		promote.setSize(275, 300);
@@ -589,5 +590,4 @@ public abstract class Client {
 	 * @throws Exception
 	 */
 	public abstract void selectPiece(int i, int j) throws Exception;
-	
 }

@@ -1,18 +1,14 @@
 import java.util.Iterator;
 
 /**
- * @author Adrian Moore
- * 
- *         Contributors: Martin Cox
- * 
- *         This class represents a King Piece in our game of Chess. Kings move
- *         one square in any direction, orthogonal or diagonal.
+ * File: King.java
+ * Contributors: David McLain, Adrian Moore, Martin Cox, Luke Niemann
+ * Description: This class represents a King Piece in our game of Chess.
+ * Kings move one square in any direction, orthogonal or diagonal.
  */
 public class King extends Piece {
-
 	/**
 	 * Constructor for King. Assigns color and starting position.
-	 * 
 	 * @param row
 	 * @param col
 	 * @param color
@@ -25,17 +21,14 @@ public class King extends Piece {
 		else
 			icon = "src/king_white.png";
 	}
-
 	/**
 	 * Secondary constructor for King which creates a copy of the param piece
-	 * 
 	 * @param piece
 	 */
 	public King(Piece piece) {
 		this(piece.getRow(), piece.getCol(), piece.getColor());
 		this.legalMoves.addAll(piece.legalMoves);
 	}
-
 	/**
 	 * Generates all legal moves the King can make. We iterate through offsets of 1,
 	 * 0, and -1 to generate each of the eight possible one square moves. We add a
@@ -43,7 +36,6 @@ public class King extends Piece {
 	 * occupied by a piece of the opposite color. Then we add castling which the
 	 * King can only perform if it is not in check, has castling rights, and there
 	 * are no pieces between it and the Rook it wants to castle with.
-	 * 
 	 * @param board
 	 */
 	public void updateLegalMoves(Board board) {
@@ -82,7 +74,6 @@ public class King extends Piece {
 	/**
 	 * The King needs a special implementation of filterLegalMoves to prevent the
 	 * King from castling through an attacked square
-	 * 
 	 * @param board
 	 */
 	public void filterLegalMoves(Board board) {
@@ -124,7 +115,6 @@ public class King extends Piece {
 
 	/**
 	 * Getter for the King's unicode character
-	 * 
 	 * @return a unicode character
 	 */
 	public String getString() {
@@ -133,7 +123,6 @@ public class King extends Piece {
 
 	/**
 	 * Returns as the King as a String with the King's color
-	 * 
 	 * @return the King as a String
 	 */
 	public String toString() {

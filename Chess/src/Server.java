@@ -8,21 +8,18 @@ import java.util.concurrent.Executors;
 import javax.swing.Timer;
 /*
  * File: Server.java
- * Author: Luke Niemann
- * Contributors: Luke Niemann, David McLain
+ * Contributors: David McLain, Adrian Moore, Martin Cox, Luke Niemann
  * Description: This class is used for creating a server to handle an online
  * chess game set on a specific port. Allows two connections and as long as both
  * clients are connected everything will respond accordingly
  */
 public class Server {
-	
 	private static DataOutputStream[] outputs = new DataOutputStream[2];
 	private static int cur = 0;
-	
 	public static void main(String[] args) throws Exception {
 		System.out.println(InetAddress.getLocalHost());
 		try (var listener = new ServerSocket(10000)) {
-			listener.setSoTimeout(20000);
+			listener.setSoTimeout(10000);
 			System.out.println("The Chess server is running...");
 			var pool = Executors.newFixedThreadPool(200);
 			Game game = new OnlineGame(outputs);
@@ -32,12 +29,10 @@ public class Server {
 			}
 		}
 	}
-	/**
-	 * ChessManager deals with creating a new thread when a client connects.
-	 * After client connects ChessManager will deal with all input and output
-	 * to clients to ensure clients do not interrupt threads.
-	 * Author: Luke Niemann
-	 * Contributors: Luke Niemann, David McLain
+	/*
+	 * Description: ChessManager deals with creating a new thread when a client
+	 * connects. After client connects ChessManager will deal with all input and
+	 * output to clients to ensure clients do not interrupt threads.
 	 */
 	@SuppressWarnings("unused")
 	private static class ChessManager implements Runnable {
@@ -74,7 +69,7 @@ public class Server {
 				System.out.println("Error:" + socket);
 				e.printStackTrace();
 			} finally {
-				try { socket.close(); } 
+				try { socket.close(); }
 				catch (IOException e) {}
 				System.out.println("Closed: " + socket);
 			}
@@ -98,7 +93,7 @@ public class Server {
 						String response = you.getInput().readUTF();
 						processCommand(response);
 					}
-				} 
+				}
 				catch (IOException e) {
 					e.printStackTrace();
 					break;
@@ -134,10 +129,10 @@ public class Server {
 				catch (IOException e) {
 					try {
 						you.getOutput().writeUTF("ERROR Select Valid Piece");
-					} 
+					}
 					catch (IOException e1) {}
 					e.printStackTrace();
-				} 
+				}
 				catch (Exception e) {
 					e.printStackTrace();
 				}

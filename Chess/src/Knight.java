@@ -1,17 +1,13 @@
 /**
- * @author Adrian Moore
- * 
- *         Contributors: Martin Cox
- * 
- *         This class represents a Knight Piece in our game of Chess. Knights
- *         move in an L shape: two square in one direction and one square in
- *         another (both orthogonally).
+ * File: Knight.java
+ * Contributors: Martin Cox
+ * Description: This class represents a Knight Piece in our game of Chess.
+ * Knights move in an L shape: two square in one direction and one square in
+ * another (both orthogonally).
  */
 public class Knight extends Piece {
-
 	/**
 	 * Constructor for Knight. Assigns color and starting position.
-	 * 
 	 * @param row
 	 * @param col
 	 * @param color
@@ -24,23 +20,19 @@ public class Knight extends Piece {
 		else
 			icon = "src/knight_white.png";
 	}
-
 	/**
 	 * Secondary constructor for Rook which creates a copy of the param Piece
-	 * 
 	 * @param piece
 	 */
 	public Knight(Piece piece) {
 		this(piece.getRow(), piece.getCol(), piece.getColor());
 		this.legalMoves.addAll(piece.legalMoves);
 	}
-
 	/**
 	 * Generates all legal moves the Knight can make. We iterate through offsets of
 	 * 1, -1 and 2, -2 to generate each of the eight possible moves. We add a square
 	 * to our legal moves if it is in bounds, and is unoccupied or is occupied by a
 	 * piece of the opposite color.
-	 * 
 	 * @param board
 	 */
 	public void updateLegalMoves(Board board) {
@@ -65,16 +57,13 @@ public class Knight extends Piece {
 
 	/**
 	 * Getter for the Knight's unicode character
-	 * 
 	 * @return a unicode character
 	 */
 	public String getString() {
 		return color == Side.BLACK ? "\u2658" : "\u265E";
 	}
-
 	/**
 	 * Returns as the Knight as a String with the Knight's color
-	 * 
 	 * @return the Knight as a String
 	 */
 	public String toString() {

@@ -2,13 +2,11 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 /*
  * File: Game.java
- * Author: David McLain
- * Contributors: David McLain, Luke Niemann
+ * Contributors: David McLain, Adrian Moore, Martin Cox, Luke Niemann
  * Description: This class is used for maintaining game state when game
  * format is online
  */
 public class OnlineGame extends Game {
-
 	private DataOutputStream[] outputs;
 	/**
 	 * Instantiates OnlineGame
@@ -26,7 +24,7 @@ public class OnlineGame extends Game {
 		for (DataOutputStream o : outputs) {
 			try {
 				o.writeUTF("BOARD "+ FEN.toFEN(board));
-			} 
+			}
 			catch (IOException e) {}
 		}
 	}
@@ -38,7 +36,7 @@ public class OnlineGame extends Game {
 		try {
 			outputs[0].writeUTF("END_GAME " + gameOver.toString());
 			outputs[1].writeUTF("END_GAME " + gameOver.toString());
-		} 
+		}
 		catch (IOException e) {}
 	}
 	/**
