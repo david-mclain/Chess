@@ -7,10 +7,12 @@ In order for online to function properly you must wait for both player to be con
 to exececute a move.
 ```
 ***Features:***
-* Image pieces instead of unicode chars
-* Saving multiple games
-* Legal moves are highlighted
-* Checking piece is highlighted red
-* Competitive mode with timers
-* Each player's timer is highlighted when it is their turn
-* Display captured pieces
+```
+- Image pieces instead of unicode chars
+- Saving multiple games
+- Legal moves are highlighted
+- Checking piece is highlighted red
+- Competitive mode with timers
+- Each player's timer is highlighted when it is their turn
+- Display captured pieces
+```
