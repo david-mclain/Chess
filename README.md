@@ -1,4 +1,4 @@
-```
+`
 Instructions:
 Run Main Menu which will then prompt which format of game you would like to play.
 If local format is selected, two players will play against each other on the same computer.
@@ -14,4 +14,4 @@ Features:
 - Competitive mode with timers
 - Each player's timer is highlighted when it is their turn
 - Display captured pieces
-```
+`
