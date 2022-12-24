@@ -14,3 +14,9 @@ Run Chess Driver which will then prompt which format of game you would like to p
 - Competitive mode with timers
 - Each player's timer is highlighted when it is their turn
 - Display captured pieces
+
+### ***Contributors***
+- David McLain
+- Adrian Moore
+- Martin Cox
+- Luke Niemann
